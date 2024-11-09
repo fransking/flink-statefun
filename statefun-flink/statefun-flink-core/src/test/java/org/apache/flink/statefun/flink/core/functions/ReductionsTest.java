@@ -25,8 +25,8 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
-import org.apache.flink.api.common.ExecutionConfig;
-import org.apache.flink.api.common.JobID;
+
+import org.apache.flink.api.common.*;
 import org.apache.flink.api.common.accumulators.*;
 import org.apache.flink.api.common.accumulators.Histogram;
 import org.apache.flink.api.common.cache.DistributedCache;
@@ -34,6 +34,7 @@ import org.apache.flink.api.common.externalresource.ExternalResourceInfo;
 import org.apache.flink.api.common.functions.BroadcastVariableInitializer;
 import org.apache.flink.api.common.functions.RuntimeContext;
 import org.apache.flink.api.common.state.*;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeutils.TypeSerializer;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.metrics.*;
@@ -41,7 +42,7 @@ import org.apache.flink.metrics.groups.OperatorMetricGroup;
 import org.apache.flink.runtime.state.*;
 import org.apache.flink.runtime.state.heap.HeapPriorityQueueElement;
 import org.apache.flink.runtime.state.internal.InternalListState;
-import org.apache.flink.shaded.guava30.com.google.common.util.concurrent.MoreExecutors;
+import org.apache.flink.shaded.guava31.com.google.common.util.concurrent.MoreExecutors;
 import org.apache.flink.statefun.flink.core.StatefulFunctionsUniverse;
 import org.apache.flink.statefun.flink.core.TestUtils;
 import org.apache.flink.statefun.flink.core.backpressure.ThresholdBackPressureValve;
@@ -53,6 +54,7 @@ import org.apache.flink.streaming.api.operators.Output;
 import org.apache.flink.streaming.api.operators.Triggerable;
 import org.apache.flink.streaming.api.watermark.Watermark;
 import org.apache.flink.streaming.runtime.streamrecord.LatencyMarker;
+import org.apache.flink.streaming.runtime.streamrecord.RecordAttributes;
 import org.apache.flink.streaming.runtime.streamrecord.StreamRecord;
 import org.apache.flink.streaming.runtime.watermarkstatus.WatermarkStatus;
 import org.apache.flink.util.OutputTag;
@@ -85,6 +87,7 @@ public class ReductionsTest {
 
   @SuppressWarnings("deprecation")
   private static final class FakeRuntimeContext implements RuntimeContext {
+
 
     @Override
     public <T> ValueState<T> getState(ValueStateDescriptor<T> stateProperties) {
@@ -155,8 +158,13 @@ public class ReductionsTest {
     }
 
     @Override
-    public ExecutionConfig getExecutionConfig() {
-      return new ExecutionConfig();
+    public Map<String, String> getGlobalJobParameters() {
+      return Collections.emptyMap();
+    }
+
+    @Override
+    public boolean isObjectReuseEnabled() {
+      return false;
     }
 
     // everything below this line would throw UnspportedOperationException()
@@ -279,6 +287,26 @@ public class ReductionsTest {
 
     @Override
     public JobID getJobId() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public JobInfo getJobInfo()  {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public TaskInfo getTaskInfo() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ExecutionConfig getExecutionConfig() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <T> TypeSerializer<T> createSerializer(TypeInformation<T> typeInformation) {
       throw new UnsupportedOperationException();
     }
   }
@@ -557,6 +585,9 @@ public class ReductionsTest {
     @Override
     public void emitLatencyMarker(LatencyMarker latencyMarker) {}
 
+    @Override
+    public void emitRecordAttributes(RecordAttributes recordAttributes) {}
+    
     @Override
     public void collect(StreamRecord<Message> record) {}
 

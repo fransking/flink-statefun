@@ -79,12 +79,14 @@ under the License.
         <protobuf.version>3.7.1</protobuf.version>
         <unixsocket.version>2.3.2</unixsocket.version>
         <protoc-jar-maven-plugin.version>3.11.1</protoc-jar-maven-plugin.version>
-        <flink.version>1.16.2</flink.version>
+        <flink.version>1.19.1</flink.version>
+        <flink-kafka.version>3.2.0-1.19</flink-kafka.version>
+        <flink-kinesis.version>4.3.0-1.19</flink-kinesis.version>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.7</scala.version>
         <lz4-java.version>1.8.0</lz4-java.version>
-        <flink-shaded-jackson.version>2.12.4-15.0</flink-shaded-jackson.version>
-        <slf4j-log4j12.version>1.7.32</slf4j-log4j12.version>
+        <flink-shaded-jackson.version>2.14.2-17.0</flink-shaded-jackson.version>
+        <slf4j-log4j12.version>1.7.36</slf4j-log4j12.version>
         <test.unit.pattern>**/*Test.*</test.unit.pattern>
     </properties>
 
@@ -113,8 +115,8 @@ under the License.
 
             <!--
                 Resolve dependency convergence issue:
-                flink-core:1.16.2 depends on kryo:2.24.0
-                flink-java:1.16.2 depends on kryo:2.21 (via com.twitter:chill-java:0.7.6)
+                flink-core:1.19.1 depends on kryo:2.24.0
+                flink-java:1.19.1 depends on kryo:2.21 (via com.twitter:chill-java:0.7.6)
             -->
             <dependency>
                 <groupId>com.esotericsoftware.kryo</groupId>
@@ -123,14 +125,37 @@ under the License.
             </dependency>
             <!--
                 Resolve dependency convergence issue:
-                flink-connector-kinesis:1.16.2 depends on jackson-databind:2.13.4.2
-                flink-connector-kinesis:1.16.2 depends on jackson-databind:2.13.4
-                (via com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.13.4)
+                flink-connector-kafka:3.2.0-1.19 depends on guava:32.1.2-jre
+                flink-connector-kinesis:4.3.0-1.19 depends on guava:32.1.3-jre
              -->
             <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.13.4.2</version>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>32.1.3-jre</version>
+            </dependency>
+
+            <!--
+                Resolve dependency convergence issue:
+                org.apache.flink:flink-core:1.19.1 depends on org.apache.commons:commons-lang3:3.14.0
+                org.apache.flink:flink-core:1.19.1 depends on org.apache.commons:commons-lang3:3.12.0
+                (via org.apache.commons:commons-compress:1.26.0)
+             -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.14.0</version>
+            </dependency>
+
+            <!--
+                Resolve dependency convergence issue:
+                org.apache.flink:flink-core:1.19.1 depends on org.apache.commons:commons-lang3:3.14.0
+                org.apache.flink:flink-core:1.19.1 depends on org.apache.commons:commons-lang3:3.12.0
+                (via org.apache.commons:commons-compress:1.26.0)
+             -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>1.24.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

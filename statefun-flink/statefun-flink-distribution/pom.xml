@@ -119,6 +119,7 @@ under the License.
             <version>${flink.version}</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
     <build>
