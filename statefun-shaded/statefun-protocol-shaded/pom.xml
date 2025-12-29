@@ -22,7 +22,7 @@ under the License.
 
     <parent>
         <artifactId>statefun-shaded</artifactId>
-        <groupId>org.apache.flink</groupId>
+        <groupId>com.sbbsystems.flink</groupId>
         <version>3.4-SNAPSHOT</version>
     </parent>
 
@@ -38,12 +38,12 @@ under the License.
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.flink</groupId>
+            <groupId>com.sbbsystems.flink</groupId>
             <artifactId>statefun-sdk-protos</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.flink</groupId>
+            <groupId>com.sbbsystems.flink</groupId>
             <artifactId>statefun-protobuf-shaded</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -66,7 +66,7 @@ under the License.
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.apache.flink</groupId>
+                                    <groupId>com.sbbsystems.flink</groupId>
                                     <artifactId>statefun-sdk-protos</artifactId>
                                     <version>${project.version}</version>
                                     <type>jar</type>
