@@ -25,7 +25,6 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
-
 import org.apache.flink.api.common.*;
 import org.apache.flink.api.common.accumulators.*;
 import org.apache.flink.api.common.accumulators.Histogram;
@@ -87,7 +86,6 @@ public class ReductionsTest {
 
   @SuppressWarnings("deprecation")
   private static final class FakeRuntimeContext implements RuntimeContext {
-
 
     @Override
     public <T> ValueState<T> getState(ValueStateDescriptor<T> stateProperties) {
@@ -291,7 +289,7 @@ public class ReductionsTest {
     }
 
     @Override
-    public JobInfo getJobInfo()  {
+    public JobInfo getJobInfo() {
       throw new UnsupportedOperationException();
     }
 
@@ -587,7 +585,7 @@ public class ReductionsTest {
 
     @Override
     public void emitRecordAttributes(RecordAttributes recordAttributes) {}
-    
+
     @Override
     public void collect(StreamRecord<Message> record) {}
 
