@@ -26,7 +26,8 @@ import org.apache.flink.statefun.flink.core.common.SerializableFunction;
 import org.apache.flink.streaming.api.operators.*;
 
 public final class FeedbackUnionOperatorFactory<E>
-    implements OneInputStreamOperatorFactory<E, E>, YieldingOperatorFactory<E> {
+        implements OneInputStreamOperatorFactory<E, E> {
+    //implements OneInputStreamOperatorFactory<E, E>, YieldingOperatorFactory<E> {
 
   private static final long serialVersionUID = 1;
 
@@ -36,7 +37,7 @@ public final class FeedbackUnionOperatorFactory<E>
   private final SerializableFunction<E, OptionalLong> isBarrierMessage;
   private final SerializableFunction<E, ?> keySelector;
 
-  private transient MailboxExecutor mailboxExecutor;
+//  private transient MailboxExecutor mailboxExecutor;
 
   public FeedbackUnionOperatorFactory(
       StatefulFunctionsConfig configuration,
@@ -59,6 +60,7 @@ public final class FeedbackUnionOperatorFactory<E>
             .getTypeSerializerIn(
                 0, streamOperatorParameters.getContainingTask().getUserCodeClassLoader());
 
+
     FeedbackUnionOperator<E> op =
         new FeedbackUnionOperator<>(
             feedbackKey,
@@ -66,22 +68,24 @@ public final class FeedbackUnionOperatorFactory<E>
             keySelector,
             configuration.getFeedbackBufferSize().getBytes(),
             serializer,
-            mailboxExecutor,
-            streamOperatorParameters.getProcessingTimeService());
+            //mailboxExecutor,
+//            streamOperatorParameters.getMailboxExecutor(),
+//            streamOperatorParameters.getProcessingTimeService(),
+                streamOperatorParameters);
 
-    op.setup(
-        streamOperatorParameters.getContainingTask(),
-        streamOperatorParameters.getStreamConfig(),
-        streamOperatorParameters.getOutput());
+//    op.setup(
+//        streamOperatorParameters.getContainingTask(),
+//        streamOperatorParameters.getStreamConfig(),
+//        streamOperatorParameters.getOutput());
 
     return (T) op;
   }
 
-  @Override
-  public void setMailboxExecutor(MailboxExecutor mailboxExecutor) {
-    this.mailboxExecutor =
-        Objects.requireNonNull(mailboxExecutor, "Mailbox executor can't be NULL");
-  }
+//  @Override
+//  public void setMailboxExecutor(MailboxExecutor mailboxExecutor) {
+//    this.mailboxExecutor =
+//        Objects.requireNonNull(mailboxExecutor, "Mailbox executor can't be NULL");
+//  }
 
   @Override
   public void setChainingStrategy(ChainingStrategy chainingStrategy) {

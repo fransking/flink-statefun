@@ -66,14 +66,32 @@ public class RemoteValueSerializerSnapshot implements TypeSerializerSnapshot<byt
     return new RemoteValueSerializer(type);
   }
 
+//  @Override
+//  public TypeSerializerSchemaCompatibility<byte[]> resolveSchemaCompatibility(
+//      TypeSerializer<byte[]> otherSerializer) {
+//    if (!(otherSerializer instanceof RemoteValueSerializer)) {
+//      return TypeSerializerSchemaCompatibility.incompatible();
+//    }
+//
+//    final RemoteValueSerializer otherRemoteTypeSerializer = (RemoteValueSerializer) otherSerializer;
+//    if (!type.equals(otherRemoteTypeSerializer.getType())) {
+//      // throw an exception to bubble up information about the previous snapshotted typename
+//      // TODO would this mess with Flink's schema compatibility checks?
+//      // TODO this should be fine, since at the moment, if we return incompatible, Flink immediately
+//      // fails anyways
+//      throw new RemoteValueTypeMismatchException(type, otherRemoteTypeSerializer.getType());
+//    }
+//    return TypeSerializerSchemaCompatibility.compatibleAsIs();
+//  }
+
   @Override
   public TypeSerializerSchemaCompatibility<byte[]> resolveSchemaCompatibility(
-      TypeSerializer<byte[]> otherSerializer) {
-    if (!(otherSerializer instanceof RemoteValueSerializer)) {
+          TypeSerializerSnapshot<byte[]> otherSerializerSnapshot) {
+    if (!(otherSerializerSnapshot instanceof RemoteValueSerializerSnapshot)) {
       return TypeSerializerSchemaCompatibility.incompatible();
     }
 
-    final RemoteValueSerializer otherRemoteTypeSerializer = (RemoteValueSerializer) otherSerializer;
+    final RemoteValueSerializer otherRemoteTypeSerializer = (RemoteValueSerializer) otherSerializerSnapshot.restoreSerializer();
     if (!type.equals(otherRemoteTypeSerializer.getType())) {
       // throw an exception to bubble up information about the previous snapshotted typename
       // TODO would this mess with Flink's schema compatibility checks?

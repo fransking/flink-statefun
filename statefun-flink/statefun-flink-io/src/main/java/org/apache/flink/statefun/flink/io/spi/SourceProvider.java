@@ -18,9 +18,14 @@
 package org.apache.flink.statefun.flink.io.spi;
 
 import org.apache.flink.statefun.sdk.io.IngressSpec;
-import org.apache.flink.streaming.api.functions.source.SourceFunction;
+//import org.apache.flink.streaming.api.functions.source.SourceFunction;
+import org.apache.flink.api.connector.source.Source;
+import org.apache.flink.api.connector.source.SourceSplit;
+
 
 public interface SourceProvider {
 
-  <T> SourceFunction<T> forSpec(IngressSpec<T> spec);
+  // TODO the SplitT and EnumChckT need to come from
+  // https://github.com/apache/flink-connector-kafka/blob/main/flink-connector-kafka/src/main/java/org/apache/flink/connector/kafka/source/KafkaSource.java
+  <T, SplitT extends SourceSplit, EnumChckT> Source<T, SplitT, EnumChckT> forSpec(IngressSpec<T> spec);
 }

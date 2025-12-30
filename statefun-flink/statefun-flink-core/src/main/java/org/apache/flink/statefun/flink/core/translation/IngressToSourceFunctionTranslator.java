@@ -24,7 +24,8 @@ import org.apache.flink.statefun.flink.core.common.Maps;
 import org.apache.flink.statefun.flink.io.spi.SourceProvider;
 import org.apache.flink.statefun.sdk.io.IngressIdentifier;
 import org.apache.flink.statefun.sdk.io.IngressSpec;
-import org.apache.flink.streaming.api.functions.source.SourceFunction;
+//import org.apache.flink.streaming.api.functions.source.SourceFunction;
+import org.apache.flink.api.connector.source.Source;
 
 final class IngressToSourceFunctionTranslator {
   private final StatefulFunctionsUniverse universe;
@@ -46,7 +47,7 @@ final class IngressToSourceFunctionTranslator {
               + ", which is bound for key "
               + key);
     }
-    SourceFunction<?> source = provider.forSpec(spec);
+    Source<?, ? ,?> source = provider.forSpec(spec);
     if (source == null) {
       throw new NullPointerException(
           "A source provider for type " + spec.type() + ", has produced a NULL source.");

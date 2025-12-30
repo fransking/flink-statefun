@@ -27,7 +27,8 @@ import org.apache.flink.streaming.api.operators.*;
 import org.apache.flink.util.OutputTag;
 
 public final class FunctionGroupDispatchFactory
-    implements OneInputStreamOperatorFactory<Message, Message>, YieldingOperatorFactory<Message> {
+        implements OneInputStreamOperatorFactory<Message, Message> {
+//    implements OneInputStreamOperatorFactory<Message, Message>, YieldingOperatorFactory<Message> {
 
   private static final long serialVersionUID = 1;
 
@@ -44,11 +45,11 @@ public final class FunctionGroupDispatchFactory
     this.sideOutputs = sideOutputs;
   }
 
-  @Override
-  public void setMailboxExecutor(MailboxExecutor mailboxExecutor) {
-    this.mailboxExecutor =
-        Objects.requireNonNull(mailboxExecutor, "Mailbox executor can't be NULL");
-  }
+//  @Override
+//  public void setMailboxExecutor(MailboxExecutor mailboxExecutor) {
+//    this.mailboxExecutor =
+//        Objects.requireNonNull(mailboxExecutor, "Mailbox executor can't be NULL");
+//  }
 
   @Override
   public <T extends StreamOperator<Message>> T createStreamOperator(
@@ -57,13 +58,15 @@ public final class FunctionGroupDispatchFactory
         new FunctionGroupOperator(
             sideOutputs,
             configuration,
-            mailboxExecutor,
-            ChainingStrategy.ALWAYS,
-            streamOperatorParameters.getProcessingTimeService());
-    fn.setup(
-        streamOperatorParameters.getContainingTask(),
-        streamOperatorParameters.getStreamConfig(),
-        streamOperatorParameters.getOutput());
+            streamOperatorParameters);
+//            mailboxExecutor,
+//            ChainingStrategy.ALWAYS,
+//            streamOperatorParameters.getProcessingTimeService());
+
+//    fn.setup(
+//        streamOperatorParameters.getContainingTask(),
+//        streamOperatorParameters.getStreamConfig(),
+//        streamOperatorParameters.getOutput());
 
     return (T) fn;
   }

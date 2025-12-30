@@ -24,7 +24,9 @@ import org.apache.flink.statefun.flink.core.common.Maps;
 import org.apache.flink.statefun.flink.io.spi.SinkProvider;
 import org.apache.flink.statefun.sdk.io.EgressIdentifier;
 import org.apache.flink.statefun.sdk.io.EgressSpec;
-import org.apache.flink.streaming.api.functions.sink.SinkFunction;
+//import org.apache.flink.streaming.api.functions.sink.SinkFunction;
+import org.apache.flink.api.connector.sink2.Sink;
+
 
 final class EgressToSinkTranslator {
   private final StatefulFunctionsUniverse universe;
@@ -46,7 +48,7 @@ final class EgressToSinkTranslator {
               + ", which is bound for key "
               + key);
     }
-    SinkFunction<?> sink = provider.forSpec(spec);
+    Sink<?> sink = provider.forSpec(spec);
     if (sink == null) {
       throw new NullPointerException(
           "A sink provider for type " + spec.type() + ", has produced a NULL sink.");
