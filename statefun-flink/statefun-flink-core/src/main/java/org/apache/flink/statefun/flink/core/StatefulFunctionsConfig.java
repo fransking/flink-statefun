@@ -158,7 +158,7 @@ public class StatefulFunctionsConfig implements Serializable {
     this.feedbackBufferSize = configuration.get(TOTAL_MEMORY_USED_FOR_FEEDBACK_CHECKPOINTING);
     this.maxAsyncOperationsPerTask = configuration.get(ASYNC_MAX_OPERATIONS_PER_TASK);
     this.remoteModuleName = configuration.get(REMOTE_MODULE_NAME);
-    this.embedded = configuration.getBoolean(EMBEDDED);
+    this.embedded = configuration.get(EMBEDDED);
 
     for (String key : configuration.keySet()) {
       if (key.startsWith(MODULE_CONFIG_PREFIX)) {

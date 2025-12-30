@@ -38,10 +38,11 @@ import org.apache.flink.api.common.typeutils.TypeSerializer;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.metrics.*;
 import org.apache.flink.metrics.groups.OperatorMetricGroup;
+import org.apache.flink.runtime.event.WatermarkEvent;
 import org.apache.flink.runtime.state.*;
 import org.apache.flink.runtime.state.heap.HeapPriorityQueueElement;
 import org.apache.flink.runtime.state.internal.InternalListState;
-import org.apache.flink.shaded.guava31.com.google.common.util.concurrent.MoreExecutors;
+import org.apache.flink.shaded.guava33.com.google.common.util.concurrent.MoreExecutors;
 import org.apache.flink.statefun.flink.core.StatefulFunctionsUniverse;
 import org.apache.flink.statefun.flink.core.TestUtils;
 import org.apache.flink.statefun.flink.core.backpressure.ThresholdBackPressureValve;
@@ -156,6 +157,31 @@ public class ReductionsTest {
     }
 
     @Override
+    public <T> org.apache.flink.api.common.state.v2.ValueState<T> getState(org.apache.flink.api.common.state.v2.ValueStateDescriptor<T> valueStateDescriptor) {
+      return null;
+    }
+
+    @Override
+    public <T> org.apache.flink.api.common.state.v2.ListState<T> getListState(org.apache.flink.api.common.state.v2.ListStateDescriptor<T> listStateDescriptor) {
+      return null;
+    }
+
+    @Override
+    public <T> org.apache.flink.api.common.state.v2.ReducingState<T> getReducingState(org.apache.flink.api.common.state.v2.ReducingStateDescriptor<T> reducingStateDescriptor) {
+      return null;
+    }
+
+    @Override
+    public <IN, ACC, OUT> org.apache.flink.api.common.state.v2.AggregatingState<IN, OUT> getAggregatingState(org.apache.flink.api.common.state.v2.AggregatingStateDescriptor<IN, ACC, OUT> aggregatingStateDescriptor) {
+      return null;
+    }
+
+    @Override
+    public <UK, UV> org.apache.flink.api.common.state.v2.MapState<UK, UV> getMapState(org.apache.flink.api.common.state.v2.MapStateDescriptor<UK, UV> mapStateDescriptor) {
+      return null;
+    }
+
+    @Override
     public Map<String, String> getGlobalJobParameters() {
       return Collections.emptyMap();
     }
@@ -168,37 +194,7 @@ public class ReductionsTest {
     // everything below this line would throw UnspportedOperationException()
 
     @Override
-    public String getTaskName() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
     public OperatorMetricGroup getMetricGroup() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getNumberOfParallelSubtasks() {
-      return 0;
-    }
-
-    @Override
-    public int getMaxNumberOfParallelSubtasks() {
-      return 0;
-    }
-
-    @Override
-    public int getIndexOfThisSubtask() {
-      return 0;
-    }
-
-    @Override
-    public int getAttemptNumber() {
-      return 0;
-    }
-
-    @Override
-    public String getTaskNameWithSubtasks() {
       throw new UnsupportedOperationException();
     }
 
@@ -284,28 +280,56 @@ public class ReductionsTest {
     }
 
     @Override
-    public JobID getJobId() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
     public JobInfo getJobInfo() {
       throw new UnsupportedOperationException();
     }
 
     @Override
     public TaskInfo getTaskInfo() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ExecutionConfig getExecutionConfig() {
-      throw new UnsupportedOperationException();
+      return new FakeTaskInfo();
     }
 
     @Override
     public <T> TypeSerializer<T> createSerializer(TypeInformation<T> typeInformation) {
       throw new UnsupportedOperationException();
+    }
+  }
+
+  private static final class FakeTaskInfo implements TaskInfo {
+
+    @Override
+    public String getTaskName() {
+      return "";
+    }
+
+    @Override
+    public int getMaxNumberOfParallelSubtasks() {
+      return 0;
+    }
+
+    @Override
+    public int getIndexOfThisSubtask() {
+      return 0;
+    }
+
+    @Override
+    public int getNumberOfParallelSubtasks() {
+      return 0;
+    }
+
+    @Override
+    public int getAttemptNumber() {
+      return 0;
+    }
+
+    @Override
+    public String getTaskNameWithSubtasks() {
+      return "";
+    }
+
+    @Override
+    public String getAllocationIDAsString() {
+      return "";
     }
   }
 
@@ -321,6 +345,11 @@ public class ReductionsTest {
     @Override
     public <N> Stream<Object> getKeys(String state, N namespace) {
       throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <N> Stream<Object> getKeys(List<String> list, N n) {
+      return Stream.empty();
     }
 
     @Override
@@ -344,6 +373,11 @@ public class ReductionsTest {
     @Override
     public boolean deregisterKeySelectionListener(KeySelectionListener<Object> listener) {
       return false;
+    }
+
+    @Override
+    public String getBackendTypeIdentifier() {
+      return "";
     }
 
     @Nonnull
@@ -372,7 +406,14 @@ public class ReductionsTest {
     }
 
     @Override
-    public void setCurrentKey(Object newKey) {}
+    public void setCurrentKeyAndKeyGroup(Object o, int i) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setCurrentKey(Object newKey) {
+      throw new UnsupportedOperationException();
+    }
 
     @Override
     public TypeSerializer<Object> getKeySerializer() {
@@ -405,6 +446,9 @@ public class ReductionsTest {
     public long currentWatermark() {
       return 0;
     }
+
+    @Override
+    public void initializeWatermark(long l) {}
 
     @Override
     public void registerEventTimeTimer(VoidNamespace namespace, long time) {
@@ -585,6 +629,9 @@ public class ReductionsTest {
 
     @Override
     public void emitRecordAttributes(RecordAttributes recordAttributes) {}
+
+    @Override
+    public void emitWatermark(WatermarkEvent watermarkEvent) {}
 
     @Override
     public void collect(StreamRecord<Message> record) {}

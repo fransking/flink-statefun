@@ -21,7 +21,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.util.ParameterTool;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.statefun.flink.core.feedback.FeedbackKey;
 import org.apache.flink.statefun.flink.core.message.Message;

@@ -96,8 +96,8 @@ public final class ProtobufTypeSerializerSnapshot<M extends Message>
   }
 
   @Override
-  public TypeSerializerSchemaCompatibility<M> resolveSchemaCompatibility(
-      TypeSerializer<M> newSerializer) {
+  public TypeSerializerSchemaCompatibility<M> resolveSchemaCompatibility(TypeSerializerSnapshot<M> typeSerializerSnapshot) {
+    TypeSerializer<M> newSerializer = typeSerializerSnapshot.restoreSerializer();
     if (!(newSerializer instanceof ProtobufTypeSerializer)) {
       return TypeSerializerSchemaCompatibility.incompatible();
     }

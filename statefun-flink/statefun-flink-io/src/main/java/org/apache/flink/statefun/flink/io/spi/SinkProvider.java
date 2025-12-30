@@ -18,9 +18,9 @@
 package org.apache.flink.statefun.flink.io.spi;
 
 import org.apache.flink.statefun.sdk.io.EgressSpec;
-import org.apache.flink.streaming.api.functions.sink.SinkFunction;
+import org.apache.flink.api.connector.sink2.Sink;
 
 public interface SinkProvider {
 
-  <T> SinkFunction<T> forSpec(EgressSpec<T> spec);
+    <T> Sink<T> forSpec(EgressSpec<T> spec);
 }
