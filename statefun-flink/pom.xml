@@ -33,13 +33,13 @@ under the License.
     <modules>
         <module>statefun-flink-common</module>
         <module>statefun-flink-extensions</module>
-<!--        <module>statefun-flink-launcher</module>-->
+        <module>statefun-flink-launcher</module>
         <module>statefun-flink-io</module>
         <module>statefun-flink-io-bundle</module>
         <module>statefun-flink-core</module>
         <module>statefun-flink-distribution</module>
 <!--        <module>statefun-flink-harness</module>-->
-<!--        <module>statefun-flink-state-processor</module>-->
+        <module>statefun-flink-state-processor</module>
         <module>statefun-flink-datastream</module>
     </modules>
 

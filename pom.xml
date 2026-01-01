@@ -46,10 +46,10 @@ under the License.
     <modules>
         <module>statefun-sdk-embedded</module>
         <module>statefun-sdk-protos</module>
-<!--        <module>statefun-sdk-java</module>-->
-<!--        <module>statefun-sdk-python</module>-->
-<!--        <module>statefun-sdk-go</module>-->
-<!--        <module>statefun-sdk-js</module>-->
+        <module>statefun-sdk-java</module>
+        <module>statefun-sdk-python</module>
+        <module>statefun-sdk-go</module>
+        <module>statefun-sdk-js</module>
         <module>statefun-kafka-io</module>
 <!--        <module>statefun-kinesis-io</module>-->
         <module>statefun-flink</module>
@@ -157,11 +157,11 @@ under the License.
                 <version>4.1.91.Final-17.0</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-shaded-guava</artifactId>
-                <version>31.1-jre-17.0</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.apache.flink</groupId>-->
+<!--                <artifactId>flink-shaded-guava</artifactId>-->
+<!--                <version>31.1-jre-17.0</version>-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
