@@ -54,7 +54,7 @@ under the License.
 <!--        <module>statefun-kinesis-io</module>-->
         <module>statefun-flink</module>
         <module>statefun-shaded</module>
-<!--        <module>statefun-testutil</module>-->
+        <module>statefun-testutil</module>
 
         <!--
             Always build the end-to-end tests module last,
@@ -107,61 +107,34 @@ under the License.
                 <scope>test</scope>
             </dependency>
 
-            <!--
-                Resolve dependency convergence issue:
-                flink-core:1.19.1 depends on kryo:2.24.0
-                flink-java:1.19.1 depends on kryo:2.21 (via com.twitter:chill-java:0.7.6)
-            -->
-<!--            <dependency>-->
-<!--                <groupId>com.esotericsoftware.kryo</groupId>-->
-<!--                <artifactId>kryo</artifactId>-->
-<!--                <version>2.24.0</version>-->
-<!--            </dependency>-->
-            <!--
-                Resolve dependency convergence issue:
-                flink-connector-kafka:3.2.0-1.19 depends on guava:32.1.2-jre
-                flink-connector-kinesis:4.3.0-1.19 depends on guava:32.1.3-jre
-             -->
-<!--            <dependency>-->
-<!--                <groupId>com.google.guava</groupId>-->
-<!--                <artifactId>guava</artifactId>-->
-<!--                <version>32.1.3-jre</version>-->
-<!--            </dependency>-->
-
-            <!--
-                Resolve dependency convergence issue:
-                org.apache.flink:flink-core:2.2.0 depends on org.apache.commons:commons-lang3:3.18.0
-                org.apache.flink:flink-core:2.2.0 depends on org.apache.commons:commons-lang3:3.14.0
-                (via org.apache.commons:commons-compress:1.26.0)
-             -->
+            <!-- Resolve dependency convergence issue -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.18.0</version>
             </dependency>
 
-            <!--
-                Resolve dependency convergence issue:
-                org.apache.flink:flink-core:2.2.0 depends on org.apache.commons:commons-compress:1.26.0
-                org.apache.flink:flink-test-utils-junit:2.2.0 depends on org.apache.commons:commons-compress:1.24.0
-             -->
+            <!-- Resolve dependency convergence issue -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
                 <version>1.26.0</version>
             </dependency>
 
+            <!-- Resolve dependency convergence issue -->
             <dependency>
                 <groupId>org.apache.flink</groupId>
                 <artifactId>flink-shaded-netty</artifactId>
                 <version>4.1.91.Final-17.0</version>
             </dependency>
 
-<!--            <dependency>-->
-<!--                <groupId>org.apache.flink</groupId>-->
-<!--                <artifactId>flink-shaded-guava</artifactId>-->
-<!--                <version>31.1-jre-17.0</version>-->
-<!--            </dependency>-->
+            <!-- Resolve dependency convergence issue -->
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-shaded-jackson</artifactId>
+                <version>2.18.2-20.0</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

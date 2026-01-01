@@ -17,35 +17,45 @@
  */
 package org.apache.flink.statefun.flink.harness.io;
 
-import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
+import org.apache.flink.api.connector.source.*;
+import org.apache.flink.core.io.SimpleVersionedSerializer;
 
-final class SupplyingSource<T> extends RichParallelSourceFunction<T> {
+final class SupplyingSource<T, SplitT extends SourceSplit, EnumChckT> implements Source<T, SplitT, EnumChckT> {
   private static final long serialVersionUID = 1;
 
   private final SerializableSupplier<T> supplier;
-  private final long delayInMilliseconds;
-  private transient volatile boolean done;
 
-  SupplyingSource(SerializableSupplier<T> supplier, long delayInMilliseconds) {
+  SupplyingSource(SerializableSupplier<T> supplier) {
     this.supplier = supplier;
-    this.delayInMilliseconds = delayInMilliseconds;
   }
 
   @Override
-  public void run(SourceContext<T> sourceContext) throws Exception {
-    while (!done) {
-      final T nextElement = supplier.get();
-      synchronized (sourceContext.getCheckpointLock()) {
-        sourceContext.collect(nextElement);
-      }
-      if (delayInMilliseconds > 0) {
-        Thread.sleep(delayInMilliseconds);
-      }
-    }
+  public Boundedness getBoundedness() {
+    return Boundedness.CONTINUOUS_UNBOUNDED;
   }
 
   @Override
-  public void cancel() {
-    done = true;
+  public SplitEnumerator<SplitT, EnumChckT> createEnumerator(SplitEnumeratorContext<SplitT> splitEnumeratorContext) throws Exception {
+    return new SupplyingSourceSplitEnumerator<>();
+  }
+
+  @Override
+  public SplitEnumerator<SplitT, EnumChckT> restoreEnumerator(SplitEnumeratorContext<SplitT> splitEnumeratorContext, EnumChckT enumChckT) throws Exception {
+    return new SupplyingSourceSplitEnumerator<>();
+  }
+
+  @Override
+  public SimpleVersionedSerializer<SplitT> getSplitSerializer() {
+    return new SupplyingSourceSplitSerializer<>();
+  }
+
+  @Override
+  public SimpleVersionedSerializer<EnumChckT> getEnumeratorCheckpointSerializer() {
+    return null;
+  }
+
+  @Override
+  public SourceReader<T, SplitT> createReader(SourceReaderContext sourceReaderContext) {
+    return new SupplyingSourceReader<>(this.supplier);
   }
 }

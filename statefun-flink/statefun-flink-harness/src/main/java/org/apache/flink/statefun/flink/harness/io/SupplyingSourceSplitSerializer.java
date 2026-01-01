@@ -17,35 +17,30 @@
  */
 package org.apache.flink.statefun.flink.harness.io;
 
-import org.apache.flink.api.connector.sink2.Sink;
-import org.apache.flink.api.connector.sink2.SinkWriter;
-import org.apache.flink.api.connector.sink2.WriterInitContext;
+import org.apache.flink.api.connector.source.SourceSplit;
+import org.apache.flink.core.io.SimpleVersionedSerializer;
+import org.apache.flink.util.InstantiationUtil;
 
-import java.util.Objects;
+import java.io.IOException;
 
-final class ConsumingSink<T> implements Sink<T> {
+public class SupplyingSourceSplitSerializer<SplitT extends SourceSplit> implements SimpleVersionedSerializer<SplitT> {
 
-  private static final long serialVersionUID = 1;
-
-  private final SerializableConsumer<T> consumer;
-
-  ConsumingSink(SerializableConsumer<T> consumer) {
-    this.consumer = Objects.requireNonNull(consumer);
-  }
-
-  public SinkWriter<T> createWriter(WriterInitContext context) {
-    return new ConsumingElementWriter();
-  }
-
-  private class ConsumingElementWriter implements SinkWriter<T> {
-    public void write(T value, SinkWriter.Context context) {
-      consumer.accept(value);
+    @Override
+    public int getVersion() {
+        return 0;
     }
 
-    public void flush(boolean endOfInput) {
+    @Override
+    public byte[] serialize(SplitT split) throws IOException {
+        return InstantiationUtil.serializeObject(split);
     }
 
-    public void close() {
+    @Override
+    public SplitT deserialize(int version, byte[] serialized) throws IOException {
+        try {
+            return InstantiationUtil.deserializeObject(serialized, getClass().getClassLoader());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Failed to deserialize the split.", e);
+        }
     }
-  }
 }

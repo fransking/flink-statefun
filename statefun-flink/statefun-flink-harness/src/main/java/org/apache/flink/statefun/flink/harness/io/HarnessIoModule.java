@@ -17,13 +17,15 @@
  */
 package org.apache.flink.statefun.flink.harness.io;
 
-import com.google.auto.service.AutoService;
-import java.util.Map;
+import org.apache.flink.api.connector.source.Source;
+import org.apache.flink.api.connector.source.SourceSplit;
 import org.apache.flink.statefun.flink.io.spi.FlinkIoModule;
 import org.apache.flink.statefun.sdk.io.EgressSpec;
 import org.apache.flink.statefun.sdk.io.IngressSpec;
-import org.apache.flink.streaming.api.functions.sink.SinkFunction;
-import org.apache.flink.streaming.api.functions.source.SourceFunction;
+import org.apache.flink.api.connector.sink2.Sink;
+
+import com.google.auto.service.AutoService;
+import java.util.Map;
 
 @AutoService(FlinkIoModule.class)
 public class HarnessIoModule implements FlinkIoModule {
@@ -37,12 +39,12 @@ public class HarnessIoModule implements FlinkIoModule {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T> SourceFunction<T> supplingIngressSpec(IngressSpec<T> spec) {
-    SupplyingIngressSpec<T> casted = (SupplyingIngressSpec) spec;
-    return new SupplyingSource<>(casted.supplier(), casted.delayInMilliseconds());
+  private static <T, SplitT extends SourceSplit, EnumChckT> Source<T, SplitT, EnumChckT> supplingIngressSpec(IngressSpec<T> spec) {
+    SupplyingIngressSpec<T> casted = (SupplyingIngressSpec<T>) spec;
+    return new SupplyingSource<>(casted.supplier());
   }
 
-  private static <T> SinkFunction<T> consumingEgressSpec(EgressSpec<T> spec) {
+  private static <T> Sink<T> consumingEgressSpec(EgressSpec<T> spec) {
     if (!(spec instanceof ConsumingEgressSpec)) {
       throw new IllegalArgumentException("Unable to provider a source for " + spec);
     }
