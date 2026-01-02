@@ -22,15 +22,13 @@ import org.apache.flink.statefun.sdk.reqreply.generated.TypedValue;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 
 public class HarnessTest {
     @Test
     public void basicHarnessTest() throws InvalidProtocolBufferException {
-        NamespacedTestHarness harness = NamespacedTestHarness.newInstance();
+        TestHarness harness = TestHarness.newInstance();
         harness.addIngressMessage("a test message");
 
         TypedValue value = harness.getEgressMessage();

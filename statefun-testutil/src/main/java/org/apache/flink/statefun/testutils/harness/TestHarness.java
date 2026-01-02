@@ -1,4 +1,5 @@
 /*
+ * Copyright [2025] [Frans King]
  * Copyright [2023] [Frans King, Luke Ashworth]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,28 +18,12 @@
 package org.apache.flink.statefun.testutils.harness;
 import org.apache.flink.statefun.sdk.reqreply.generated.TypedValue;
 import com.google.protobuf.StringValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
+public class TestHarness {
 
-
-public class NamespacedTestHarness {
-    private final String namespace;
-    private static final AtomicInteger counter = new AtomicInteger();
-    private static final Logger LOG = LoggerFactory.getLogger(NamespacedTestHarness.class);
-
-    private NamespacedTestHarness(String namespace) {
-        this.namespace = namespace;
-    }
-
-    public static NamespacedTestHarness newInstance() {
+    public static TestHarness newInstance() {
         HarnessUtils.ensureHarnessThreadIsRunning();
-        var counterVal = counter.getAndIncrement();
-        var namespace = String.format("test-%s-", counterVal);
-        LOG.info("Created {} instance with namespace {}", NamespacedTestHarness.class.getSimpleName(), namespace);
-        return new NamespacedTestHarness(namespace);
+        return new TestHarness();
     }
 
     public void addIngressMessage(String message) {

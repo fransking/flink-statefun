@@ -22,7 +22,6 @@ import org.apache.flink.api.connector.source.ReaderOutput;
 import org.apache.flink.api.connector.source.SourceReader;
 import org.apache.flink.api.connector.source.SourceSplit;
 import org.apache.flink.core.io.InputStatus;
-import org.apache.flink.shaded.zookeeper3.org.apache.zookeeper.common.StringUtils;
 
 import java.util.List;
 import java.util.Objects;

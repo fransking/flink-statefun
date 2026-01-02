@@ -51,7 +51,6 @@ under the License.
         <module>statefun-sdk-go</module>
         <module>statefun-sdk-js</module>
         <module>statefun-kafka-io</module>
-<!--        <module>statefun-kinesis-io</module>-->
         <module>statefun-flink</module>
         <module>statefun-shaded</module>
         <module>statefun-testutil</module>
@@ -61,7 +60,7 @@ under the License.
             since the module builds the base Stateful Functions image with the
             built project artifacts before running the end-to-end tests.
         -->
-<!--        <module>statefun-e2e-tests</module>-->
+        <module>statefun-e2e-tests</module>
     </modules>
 
     <properties>
@@ -75,11 +74,10 @@ under the License.
         <protoc-jar-maven-plugin.version>3.11.1</protoc-jar-maven-plugin.version>
         <flink.version>2.2.0</flink.version>
         <flink-kafka.version>4.0.1-2.0</flink-kafka.version>
-<!--        <flink-kinesis.version>4.3.0-2.2.0</flink-kinesis.version>-->
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.7</scala.version>
         <lz4-java.version>1.8.0</lz4-java.version>
-        <flink-shaded-jackson.version>2.14.2-17.0</flink-shaded-jackson.version>
+        <flink-shaded-jackson.version>2.18.2-20.0</flink-shaded-jackson.version>
         <slf4j-log4j12.version>1.7.36</slf4j-log4j12.version>
         <test.unit.pattern>**/*Test.*</test.unit.pattern>
     </properties>
@@ -128,12 +126,12 @@ under the License.
                 <version>4.1.91.Final-17.0</version>
             </dependency>
 
-            <!-- Resolve dependency convergence issue -->
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-shaded-jackson</artifactId>
-                <version>2.18.2-20.0</version>
-            </dependency>
+<!--            &lt;!&ndash; Resolve dependency convergence issue &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.flink</groupId>-->
+<!--                <artifactId>flink-shaded-jackson</artifactId>-->
+<!--                <version>2.18.2-20.0</version>-->
+<!--            </dependency>-->
 
         </dependencies>
     </dependencyManagement>
