@@ -22,36 +22,23 @@ import org.apache.flink.statefun.flink.io.spi.SourceProvider;
 import org.apache.flink.statefun.sdk.io.IngressSpec;
 import org.apache.flink.statefun.sdk.kafka.KafkaIngressSpec;
 import org.apache.flink.statefun.sdk.kafka.KafkaIngressStartupPosition;
-//import org.apache.flink.streaming.api.functions.source.SourceFunction;
-//import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
-//import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;
 import org.apache.flink.api.connector.source.Source;
 import org.apache.flink.api.connector.source.SourceSplit;
-
-// TODO see https://github.com/apache/flink-connector-kafka/blob/main/flink-connector-kafka/src/main/java/org/apache/flink/connector/kafka/source/KafkaSource.java
 import org.apache.flink.connector.kafka.source.reader.deserializer.KafkaRecordDeserializationSchema;
 import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.statefun.sdk.kafka.KafkaTopicPartition;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.TopicPartition;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class KafkaSourceProvider implements SourceProvider {
 
-//  @Override
-//  public <T> Source<T> forSpec(IngressSpec<T> ingressSpec) {
-//    KafkaIngressSpec<T> spec = asKafkaSpec(ingressSpec);
-//
-//    FlinkKafkaConsumer<T> consumer =
-//        new FlinkKafkaConsumer<>(
-//            spec.topics(), deserializationSchemaFromSpec(spec), spec.properties());
-//    configureStartupPosition(consumer, spec.startupPosition());
-//    return consumer;
-//  }
-
   @Override
   public <T, SplitT extends SourceSplit, EnumChckT> Source<T, SplitT, EnumChckT> forSpec(IngressSpec<T> ingressSpec) {
     KafkaIngressSpec<T> spec = asKafkaSpec(ingressSpec);
-
-
 
     KafkaSource<T> source = KafkaSource
             .<T>builder()
@@ -60,6 +47,7 @@ public class KafkaSourceProvider implements SourceProvider {
             .setTopics(spec.topics())
             .setDeserializer(deserializationSchemaFromSpec(spec))
             .setStartingOffsets(getStartupPositionFromSpec(spec))
+            .setProperties(spec.properties())
             .build();
 
       //noinspection unchecked
@@ -79,10 +67,15 @@ public class KafkaSourceProvider implements SourceProvider {
   private <T> OffsetsInitializer getStartupPositionFromSpec(KafkaIngressSpec<T> spec) {
     KafkaIngressStartupPosition startupPosition = spec.startupPosition();
 
-    if (startupPosition.isEarliest()) {
+    if (startupPosition.isGroupOffsets()) {
+      return OffsetsInitializer.committedOffsets();
+    } else if (startupPosition.isEarliest()) {
       return OffsetsInitializer.earliest();
     } else if (startupPosition.isLatest()) {
       return OffsetsInitializer.latest();
+    } else if (startupPosition.isSpecificOffsets()) {
+      KafkaIngressStartupPosition.SpecificOffsetsPosition offsetsPosition = startupPosition.asSpecificOffsets();
+      return OffsetsInitializer.offsets(convertKafkaTopicPartitionMap(offsetsPosition.specificOffsets()));
     } else if (startupPosition.isDate()) {
       return OffsetsInitializer.timestamp(startupPosition.asDate().epochMilli());
     } else {
@@ -90,46 +83,19 @@ public class KafkaSourceProvider implements SourceProvider {
     }
   }
 
-//  private static <T> void configureStartupPosition(
-//      FlinkKafkaConsumer<T> consumer, KafkaIngressStartupPosition startupPosition) {
-//    if (startupPosition.isGroupOffsets()) {
-//      consumer.setStartFromGroupOffsets();
-//    } else if (startupPosition.isEarliest()) {
-//      consumer.setStartFromEarliest();
-//    } else if (startupPosition.isLatest()) {
-//      consumer.setStartFromLatest();
-//    } else if (startupPosition.isSpecificOffsets()) {
-//      KafkaIngressStartupPosition.SpecificOffsetsPosition offsetsPosition =
-//          startupPosition.asSpecificOffsets();
-//      consumer.setStartFromSpecificOffsets(
-//          convertKafkaTopicPartitionMap(offsetsPosition.specificOffsets()));
-//    } else if (startupPosition.isDate()) {
-//      KafkaIngressStartupPosition.DatePosition datePosition = startupPosition.asDate();
-//      consumer.setStartFromTimestamp(datePosition.epochMilli());
-//    } else {
-//      throw new IllegalStateException("Safe guard; should not occur");
-//    }
-//  }
-
   private <T> KafkaRecordDeserializationSchema<T> deserializationSchemaFromSpec(KafkaIngressSpec<T> spec) {
     return new KafkaDeserializationSchemaDelegate<>(spec.deserializer());
   }
 
-//  private static Map<
-//          org.apache.flink.streaming.connectors.kafka.internals.KafkaTopicPartition, Long>
-//      convertKafkaTopicPartitionMap(Map<KafkaTopicPartition, Long> offsets) {
-//    Map<org.apache.flink.streaming.connectors.kafka.internals.KafkaTopicPartition, Long> result =
-//        new HashMap<>(offsets.size());
-//    for (Map.Entry<KafkaTopicPartition, Long> offset : offsets.entrySet()) {
-//      result.put(convertKafkaTopicPartition(offset.getKey()), offset.getValue());
-//    }
-//
-//    return result;
-//  }
-//
-//  private static org.apache.flink.streaming.connectors.kafka.internals.KafkaTopicPartition
-//      convertKafkaTopicPartition(KafkaTopicPartition partition) {
-//    return new org.apache.flink.streaming.connectors.kafka.internals.KafkaTopicPartition(
-//        partition.topic(), partition.partition());
-//  }
+  private static Map<TopicPartition, Long> convertKafkaTopicPartitionMap(Map<KafkaTopicPartition, Long> offsets) {
+    Map<TopicPartition, Long> result = new HashMap<>(offsets.size());
+    for (Map.Entry<KafkaTopicPartition, Long> offset : offsets.entrySet()) {
+      result.put(convertKafkaTopicPartition(offset.getKey()), offset.getValue());
+    }
+    return result;
+  }
+
+  private static TopicPartition convertKafkaTopicPartition(KafkaTopicPartition partition) {
+    return new TopicPartition(partition.topic(), partition.partition());
+  }
 }

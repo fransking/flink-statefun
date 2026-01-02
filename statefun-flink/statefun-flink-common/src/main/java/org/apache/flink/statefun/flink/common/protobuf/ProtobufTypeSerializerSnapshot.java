@@ -105,16 +105,6 @@ public final class ProtobufTypeSerializerSnapshot<M extends Message>
     return resolveSchemaCompatibility(casted);
   }
 
-//  @Override
-//  public TypeSerializerSchemaCompatibility<M> resolveSchemaCompatibility(
-//      TypeSerializer<M> newSerializer) {
-//    if (!(newSerializer instanceof ProtobufTypeSerializer)) {
-//      return TypeSerializerSchemaCompatibility.incompatible();
-//    }
-//    ProtobufTypeSerializer<?> casted = (ProtobufTypeSerializer<?>) newSerializer;
-//    return resolveSchemaCompatibility(casted);
-//  }
-
   /**
    * Check schema compatibility with the new serializer.
    *

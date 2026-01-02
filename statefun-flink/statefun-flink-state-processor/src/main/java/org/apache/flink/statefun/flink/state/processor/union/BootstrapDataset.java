@@ -18,7 +18,6 @@
 package org.apache.flink.statefun.flink.state.processor.union;
 
 import java.util.Objects;
-//import org.apache.flink.api.java.DataSet;
 import org.apache.flink.statefun.flink.state.processor.BootstrapDataRouterProvider;
 import org.apache.flink.streaming.api.datastream.DataStream;
 

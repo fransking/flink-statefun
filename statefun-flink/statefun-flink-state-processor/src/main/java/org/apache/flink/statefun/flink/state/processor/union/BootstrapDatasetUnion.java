@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 import org.apache.flink.api.common.functions.OpenContext;
 import org.apache.flink.api.common.functions.RichFlatMapFunction;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
-//import org.apache.flink.api.java.DataSet;
 import org.apache.flink.statefun.flink.state.processor.BootstrapDataRouterProvider;
 import org.apache.flink.statefun.sdk.Address;
 import org.apache.flink.statefun.sdk.FunctionType;

@@ -50,7 +50,7 @@ public class FunctionsStateBootstrapOperatorFactory extends AbstractStreamOperat
     }
 
     @Override
-    public Class<? extends StreamOperator> getStreamOperatorClass(ClassLoader classLoader) {
+    public Class<? extends StreamOperator<TaggedOperatorSubtaskState>> getStreamOperatorClass(ClassLoader classLoader) {
         return FunctionsStateBootstrapOperator.class;
     }
 }

@@ -22,7 +22,6 @@ import java.util.Objects;
 import org.apache.flink.statefun.sdk.IngressType;
 import org.apache.flink.statefun.sdk.io.IngressIdentifier;
 import org.apache.flink.statefun.sdk.io.IngressSpec;
-//import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.apache.flink.api.connector.source.Source;
 import org.apache.flink.api.connector.source.SourceSplit;
 

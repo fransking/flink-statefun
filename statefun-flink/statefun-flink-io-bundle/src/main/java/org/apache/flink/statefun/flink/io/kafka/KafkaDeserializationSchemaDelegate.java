@@ -17,13 +17,11 @@
  */
 package org.apache.flink.statefun.flink.io.kafka;
 
-import java.io.IOException;
 import java.util.Objects;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.connector.kafka.source.reader.deserializer.KafkaRecordDeserializationSchema;
 import org.apache.flink.statefun.flink.common.UnimplementedTypeInfo;
 import org.apache.flink.statefun.sdk.kafka.KafkaIngressDeserializer;
-//import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;
 import org.apache.flink.util.Collector;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
@@ -38,16 +36,6 @@ final class KafkaDeserializationSchemaDelegate<T> implements KafkaRecordDeserial
     this.producedTypeInfo = new UnimplementedTypeInfo<>();
     this.delegate = Objects.requireNonNull(delegate);
   }
-
-//  @Override
-//  public boolean isEndOfStream(T t) {
-//    return false;
-//  }
-//
-//  @Override
-//  public T deserialize(ConsumerRecord<byte[], byte[]> consumerRecord) {
-//    return delegate.deserialize(consumerRecord);
-//  }
 
   @Override
   public TypeInformation<T> getProducedType() {

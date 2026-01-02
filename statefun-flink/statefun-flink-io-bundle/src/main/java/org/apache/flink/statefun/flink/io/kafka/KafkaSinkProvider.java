@@ -17,26 +17,14 @@
  */
 package org.apache.flink.statefun.flink.io.kafka;
 
-import static org.apache.flink.util.StringUtils.generateRandomAlphanumericString;
-
-import java.util.Properties;
-import java.util.concurrent.ThreadLocalRandom;
-
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.connector.kafka.sink.KafkaSinkBuilder;
-import org.apache.flink.connector.kafka.source.KafkaSource;
-import org.apache.flink.connector.kafka.source.reader.deserializer.KafkaRecordDeserializationSchema;
 import org.apache.flink.statefun.flink.io.common.ReflectionUtil;
 import org.apache.flink.statefun.flink.io.spi.SinkProvider;
 import org.apache.flink.statefun.sdk.io.EgressSpec;
 import org.apache.flink.statefun.sdk.kafka.KafkaEgressSerializer;
 import org.apache.flink.statefun.sdk.kafka.KafkaEgressSpec;
-import org.apache.flink.statefun.sdk.kafka.KafkaIngressSpec;
 import org.apache.flink.statefun.sdk.kafka.KafkaProducerSemantic;
-//import org.apache.flink.streaming.api.functions.sink.SinkFunction;
-//import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
-//import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer.Semantic;
-//import org.apache.flink.streaming.connectors.kafka.KafkaSerializationSchema;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
@@ -47,18 +35,6 @@ public class KafkaSinkProvider implements SinkProvider {
   @Override
   public <T> Sink<T> forSpec(EgressSpec<T> egressSpec) {
     KafkaEgressSpec<T> spec = asSpec(egressSpec);
-
-//    Properties properties = new Properties();
-//    properties.putAll(spec.properties());
-//    properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, spec.kafkaAddress());
-//
-//    DeliveryGuarantee producerSemantic = semanticFromSpec(spec);
-//    if (producerSemantic == DeliveryGuarantee.EXACTLY_ONCE) {
-//      properties.setProperty(
-//          ProducerConfig.TRANSACTION_TIMEOUT_CONFIG,
-//          String.valueOf(spec.semantic().asExactlyOnceSemantic().transactionTimeout().toMillis()));
-//    }
-
     DeliveryGuarantee producerSemantic = semanticFromSpec(spec);
 
     KafkaSinkBuilder<T> sinkBuilder = KafkaSink
@@ -76,30 +52,13 @@ public class KafkaSinkProvider implements SinkProvider {
               String.valueOf(transactionTimeout));
     }
 
-//            .setGroupId(spec.properties().getProperty(ConsumerConfig.GROUP_ID_CONFIG))
-//            .setTopics(spec.topics())
-//            .setDeserializer(deserializationSchemaFromSpec(spec))
-//            .setStartingOffsets(getStartupPositionFromSpec(spec))
-
     return sinkBuilder.build();
-
-//    return new KafkaSink<T>(
-//        randomKafkaTopic(),
-//        serializerFromSpec(spec),
-//        properties,
-//        producerSemantic,
-//        spec.kafkaProducerPoolSize());
   }
 
   private <T> KafkaRecordSerializationSchema<T> serializationSchemaFromSpec(KafkaEgressSpec<T> spec) {
     KafkaEgressSerializer<T> serializer = ReflectionUtil.instantiate(spec.serializerClass());
     return new KafkaSerializationSchemaDelegate<>(serializer);
   }
-
-//  private <T> KafkaSerializationSchema<T> serializerFromSpec(KafkaEgressSpec<T> spec) {
-//    KafkaEgressSerializer<T> serializer = ReflectionUtil.instantiate(spec.serializerClass());
-//    return new KafkaSerializationSchemaDelegate<>(serializer);
-//  }
 
   private static <T> DeliveryGuarantee semanticFromSpec(KafkaEgressSpec<T> spec) {
     final KafkaProducerSemantic semantic = spec.semantic();
@@ -123,9 +82,4 @@ public class KafkaSinkProvider implements SinkProvider {
     }
     throw new IllegalArgumentException(String.format("Wrong type %s", spec.type()));
   }
-
-//  private static String randomKafkaTopic() {
-//    return "__stateful_functions_random_topic_"
-//        + generateRandomAlphanumericString(ThreadLocalRandom.current(), 16);
-//  }
 }

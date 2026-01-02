@@ -193,40 +193,10 @@ public class ReductionsTest {
 
     // everything below this line would throw UnspportedOperationException()
 
-//    @Override
-//    public String getTaskName() {
-//      throw new UnsupportedOperationException();
-//    }
-
     @Override
     public OperatorMetricGroup getMetricGroup() {
       throw new UnsupportedOperationException();
     }
-
-//    @Override
-//    public int getNumberOfParallelSubtasks() {
-//      return 0;
-//    }
-//
-//    @Override
-//    public int getMaxNumberOfParallelSubtasks() {
-//      return 0;
-//    }
-//
-//    @Override
-//    public int getIndexOfThisSubtask() {
-//      return 0;
-//    }
-//
-//    @Override
-//    public int getAttemptNumber() {
-//      return 0;
-//    }
-//
-//    @Override
-//    public String getTaskNameWithSubtasks() {
-//      throw new UnsupportedOperationException();
-//    }
 
     @Override
     public ClassLoader getUserCodeClassLoader() {
@@ -309,11 +279,6 @@ public class ReductionsTest {
       throw new UnsupportedOperationException();
     }
 
-//    @Override
-//    public JobID getJobId() {
-//      throw new UnsupportedOperationException();
-//    }
-
     @Override
     public JobInfo getJobInfo() {
       throw new UnsupportedOperationException();
@@ -323,11 +288,6 @@ public class ReductionsTest {
     public TaskInfo getTaskInfo() {
       return new FakeTaskInfo();
     }
-
-//    @Override
-//    public ExecutionConfig getExecutionConfig() {
-//      throw new UnsupportedOperationException();
-//    }
 
     @Override
     public <T> TypeSerializer<T> createSerializer(TypeInformation<T> typeInformation) {

@@ -18,7 +18,6 @@
 
 package org.apache.flink.statefun.flink.state.processor;
 
-//import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.statefun.sdk.FunctionType;
 import org.apache.flink.statefun.sdk.io.Router;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;

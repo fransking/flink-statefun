@@ -22,7 +22,6 @@ import javax.annotation.Nullable;
 
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.statefun.sdk.kafka.KafkaEgressSerializer;
-//import org.apache.flink.streaming.connectors.kafka.KafkaSerializationSchema;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 final class KafkaSerializationSchemaDelegate<T> implements KafkaRecordSerializationSchema<T> {
@@ -40,9 +39,4 @@ final class KafkaSerializationSchemaDelegate<T> implements KafkaRecordSerializat
   public ProducerRecord<byte[], byte[]> serialize(T t, KafkaSinkContext kafkaSinkContext, Long aLong) {
     return serializer.serialize(t);
   }
-
-//  @Override
-//  public ProducerRecord<byte[], byte[]> serialize(T t, @Nullable Long aLong) {
-//    return serializer.serialize(t);
-//  }
 }

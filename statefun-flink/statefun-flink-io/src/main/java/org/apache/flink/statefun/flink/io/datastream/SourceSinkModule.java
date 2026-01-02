@@ -24,8 +24,6 @@ import org.apache.flink.statefun.flink.io.spi.SinkProvider;
 import org.apache.flink.statefun.flink.io.spi.SourceProvider;
 import org.apache.flink.statefun.sdk.io.EgressSpec;
 import org.apache.flink.statefun.sdk.io.IngressSpec;
-//import org.apache.flink.streaming.api.functions.sink.SinkFunction;
-//import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.api.connector.source.Source;
 import org.apache.flink.api.connector.source.SourceSplit;

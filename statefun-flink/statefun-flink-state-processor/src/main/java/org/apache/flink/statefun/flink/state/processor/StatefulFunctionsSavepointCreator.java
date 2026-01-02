@@ -17,23 +17,15 @@
  */
 package org.apache.flink.statefun.flink.state.processor;
 
-import java.io.IOException;
-import java.sql.Savepoint;
 import java.util.LinkedList;
 import java.util.List;
-//import org.apache.flink.api.java.DataSet;
 import org.apache.flink.state.api.OperatorIdentifier;
 import org.apache.flink.state.api.StateBootstrapTransformation;
 import org.apache.flink.statefun.flink.state.processor.operator.FunctionsStateBootstrapOperatorFactory;
 import org.apache.flink.streaming.api.datastream.DataStream;
-//import org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend;
 import org.apache.flink.runtime.state.StateBackend;
-//import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.state.rocksdb.EmbeddedRocksDBStateBackend;
-//import org.apache.flink.state.api.BootstrapTransformation;
-//import org.apache.flink.state.api.NewSavepoint;
 import org.apache.flink.state.api.OperatorTransformation;
-//import org.apache.flink.state.api.Savepoint;
 import org.apache.flink.state.api.SavepointWriter;
 import org.apache.flink.statefun.flink.core.StatefulFunctionsJobConstants;
 import org.apache.flink.statefun.flink.state.processor.operator.StateBootstrapFunctionRegistry;
@@ -75,21 +67,6 @@ public class StatefulFunctionsSavepointCreator {
     this.maxParallelism = maxParallelism;
     this.stateBackend = new EmbeddedRocksDBStateBackend();
   }
-
-//  /**
-//   * Use Flink's {@link FsStateBackend} to generate the savepoint. By default, {@link
-//   * RocksDBStateBackend} is used.
-//   *
-//   * <p>This affects the format of the generated savepoint, and should therefore be the same as what
-//   * is configured by the Stateful Functions application to be restored using the generated
-//   * savepoint.
-//   *
-//   * @return the savepoint creator, configured to use the {@link FsStateBackend}.
-//   */
-//  public StatefulFunctionsSavepointCreator withFsStateBackend() {
-//    this.stateBackend = new FsStateBackend("file:///tmp/ignored");
-//    return this;
-//  }
 
   /**
    * Registers a Flink {@link DataStream} to be used as inputs to {@link StateBootstrapFunction}s for
@@ -138,10 +115,7 @@ public class StatefulFunctionsSavepointCreator {
         stateBootstrapFunctionRegistry.numRegistrations() > 0,
         "At least 1 StateBootstrapFunctionProvider must be registered.");
 
-
     final SavepointWriter newSavepoint = SavepointWriter.newSavepoint(null, stateBackend, maxParallelism);
-
-    //final NewSavepoint newSavepoint = Savepoint.create(stateBackend, maxParallelism);
 
     final DataStream<TaggedBootstrapData> taggedUnionBootstrapDataset =
         BootstrapDatasetUnion.apply(bootstrapDatasets);
