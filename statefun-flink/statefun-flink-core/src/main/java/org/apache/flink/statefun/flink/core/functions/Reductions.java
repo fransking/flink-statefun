@@ -92,12 +92,6 @@ final class Reductions {
     // For reductions
     container.add(messageFactory);
 
-//    container.add(
-//        new Partition(
-//            context.getMaxNumberOfParallelSubtasks(),
-//            context.getNumberOfParallelSubtasks(),
-//            context.getIndexOfThisSubtask()));
-
     container.add(
             new Partition(
                     context.getTaskInfo().getMaxNumberOfParallelSubtasks(),

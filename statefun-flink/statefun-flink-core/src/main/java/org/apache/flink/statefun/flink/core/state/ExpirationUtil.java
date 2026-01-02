@@ -24,7 +24,6 @@ import org.apache.flink.api.common.state.StateTtlConfig.Builder;
 import org.apache.flink.api.common.state.StateTtlConfig.StateVisibility;
 import org.apache.flink.api.common.state.StateTtlConfig.TtlTimeCharacteristic;
 import org.apache.flink.api.common.state.StateTtlConfig.UpdateType;
-//import org.apache.flink.api.streaming.api.windowing.Time;
 import org.apache.flink.statefun.sdk.state.Expiration;
 import org.apache.flink.statefun.sdk.state.Expiration.Mode;
 import java.time.Duration;

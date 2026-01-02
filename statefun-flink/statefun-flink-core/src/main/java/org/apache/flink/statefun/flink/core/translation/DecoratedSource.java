@@ -19,7 +19,6 @@ package org.apache.flink.statefun.flink.core.translation;
 
 import org.apache.flink.statefun.sdk.io.IngressIdentifier;
 import org.apache.flink.statefun.sdk.io.IngressSpec;
-//import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.apache.flink.api.connector.source.Source;
 
 final class DecoratedSource {
