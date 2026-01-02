@@ -19,11 +19,10 @@ package org.apache.flink.statefun.flink.io.datastream;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.statefun.sdk.EgressType;
 import org.apache.flink.statefun.sdk.io.EgressIdentifier;
 import org.apache.flink.statefun.sdk.io.EgressSpec;
-import org.apache.flink.api.connector.sink2.Sink;
-
 
 /**
  * An {@link EgressSpec} that can run any Apache Flink {@link Sink}.

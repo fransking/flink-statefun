@@ -23,34 +23,35 @@ import org.apache.flink.streaming.api.operators.AbstractStreamOperatorFactory;
 import org.apache.flink.streaming.api.operators.StreamOperator;
 import org.apache.flink.streaming.api.operators.StreamOperatorParameters;
 
-public class FunctionsStateBootstrapOperatorFactory extends AbstractStreamOperatorFactory<TaggedOperatorSubtaskState> {
+public class FunctionsStateBootstrapOperatorFactory
+    extends AbstractStreamOperatorFactory<TaggedOperatorSubtaskState> {
 
-    private final StateBootstrapFunctionRegistry stateBootstrapFunctionRegistry;
-    private final long timestamp;
-    private final Path savepointPath;
+  private final StateBootstrapFunctionRegistry stateBootstrapFunctionRegistry;
+  private final long timestamp;
+  private final Path savepointPath;
 
-    public FunctionsStateBootstrapOperatorFactory(
-            StateBootstrapFunctionRegistry stateBootstrapFunctionRegistry,
-            long timestamp,
-            Path savepointPath) {
+  public FunctionsStateBootstrapOperatorFactory(
+      StateBootstrapFunctionRegistry stateBootstrapFunctionRegistry,
+      long timestamp,
+      Path savepointPath) {
 
-        this.stateBootstrapFunctionRegistry = stateBootstrapFunctionRegistry;
-        this.timestamp = timestamp;
-        this.savepointPath = savepointPath;
-    }
+    this.stateBootstrapFunctionRegistry = stateBootstrapFunctionRegistry;
+    this.timestamp = timestamp;
+    this.savepointPath = savepointPath;
+  }
 
-    @Override
-    public <T extends StreamOperator<TaggedOperatorSubtaskState>> T createStreamOperator(StreamOperatorParameters<TaggedOperatorSubtaskState> streamOperatorParameters) {
-        //noinspection unchecked
-        return (T) new FunctionsStateBootstrapOperator(
-                this.stateBootstrapFunctionRegistry,
-                this.timestamp,
-                this.savepointPath
-        );
-    }
+  @Override
+  public <T extends StreamOperator<TaggedOperatorSubtaskState>> T createStreamOperator(
+      StreamOperatorParameters<TaggedOperatorSubtaskState> streamOperatorParameters) {
+    //noinspection unchecked
+    return (T)
+        new FunctionsStateBootstrapOperator(
+            this.stateBootstrapFunctionRegistry, this.timestamp, this.savepointPath);
+  }
 
-    @Override
-    public Class<? extends StreamOperator<TaggedOperatorSubtaskState>> getStreamOperatorClass(ClassLoader classLoader) {
-        return FunctionsStateBootstrapOperator.class;
-    }
+  @Override
+  public Class<? extends StreamOperator<TaggedOperatorSubtaskState>> getStreamOperatorClass(
+      ClassLoader classLoader) {
+    return FunctionsStateBootstrapOperator.class;
+  }
 }

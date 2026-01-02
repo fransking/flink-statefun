@@ -157,27 +157,34 @@ public class ReductionsTest {
     }
 
     @Override
-    public <T> org.apache.flink.api.common.state.v2.ValueState<T> getState(org.apache.flink.api.common.state.v2.ValueStateDescriptor<T> valueStateDescriptor) {
+    public <T> org.apache.flink.api.common.state.v2.ValueState<T> getState(
+        org.apache.flink.api.common.state.v2.ValueStateDescriptor<T> valueStateDescriptor) {
       return null;
     }
 
     @Override
-    public <T> org.apache.flink.api.common.state.v2.ListState<T> getListState(org.apache.flink.api.common.state.v2.ListStateDescriptor<T> listStateDescriptor) {
+    public <T> org.apache.flink.api.common.state.v2.ListState<T> getListState(
+        org.apache.flink.api.common.state.v2.ListStateDescriptor<T> listStateDescriptor) {
       return null;
     }
 
     @Override
-    public <T> org.apache.flink.api.common.state.v2.ReducingState<T> getReducingState(org.apache.flink.api.common.state.v2.ReducingStateDescriptor<T> reducingStateDescriptor) {
+    public <T> org.apache.flink.api.common.state.v2.ReducingState<T> getReducingState(
+        org.apache.flink.api.common.state.v2.ReducingStateDescriptor<T> reducingStateDescriptor) {
       return null;
     }
 
     @Override
-    public <IN, ACC, OUT> org.apache.flink.api.common.state.v2.AggregatingState<IN, OUT> getAggregatingState(org.apache.flink.api.common.state.v2.AggregatingStateDescriptor<IN, ACC, OUT> aggregatingStateDescriptor) {
+    public <IN, ACC, OUT>
+        org.apache.flink.api.common.state.v2.AggregatingState<IN, OUT> getAggregatingState(
+            org.apache.flink.api.common.state.v2.AggregatingStateDescriptor<IN, ACC, OUT>
+                aggregatingStateDescriptor) {
       return null;
     }
 
     @Override
-    public <UK, UV> org.apache.flink.api.common.state.v2.MapState<UK, UV> getMapState(org.apache.flink.api.common.state.v2.MapStateDescriptor<UK, UV> mapStateDescriptor) {
+    public <UK, UV> org.apache.flink.api.common.state.v2.MapState<UK, UV> getMapState(
+        org.apache.flink.api.common.state.v2.MapStateDescriptor<UK, UV> mapStateDescriptor) {
       return null;
     }
 

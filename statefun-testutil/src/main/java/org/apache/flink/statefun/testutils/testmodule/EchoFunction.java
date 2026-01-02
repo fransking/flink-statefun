@@ -21,8 +21,8 @@ import org.apache.flink.statefun.sdk.StatefulFunction;
 import org.apache.flink.statefun.sdk.reqreply.generated.TypedValue;
 
 public class EchoFunction implements StatefulFunction {
-    @Override
-    public void invoke(Context context, Object input) {
-        context.send(IoIdentifiers.RESULT_EGRESS, (TypedValue) input);
-    }
+  @Override
+  public void invoke(Context context, Object input) {
+    context.send(IoIdentifiers.RESULT_EGRESS, (TypedValue) input);
+  }
 }

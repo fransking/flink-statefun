@@ -16,13 +16,12 @@
  */
 package org.apache.flink.statefun.testutils.testmodule;
 
+import java.util.Map;
 import org.apache.flink.statefun.sdk.spi.StatefulFunctionModule;
 
-import java.util.Map;
-
 public class Module implements StatefulFunctionModule {
-    public void configure(Map<String, String> globalConfiguration, Binder binder) {
-        binder.bindFunctionProvider(IoIdentifiers.ECHO_FUNCTION_TYPE, unused -> new EchoFunction());
-        binder.bindIngressRouter(IoIdentifiers.REQUEST_INGRESS, new TestPipelineRouter());
-    }
+  public void configure(Map<String, String> globalConfiguration, Binder binder) {
+    binder.bindFunctionProvider(IoIdentifiers.ECHO_FUNCTION_TYPE, unused -> new EchoFunction());
+    binder.bindIngressRouter(IoIdentifiers.REQUEST_INGRESS, new TestPipelineRouter());
+  }
 }

@@ -79,16 +79,15 @@ public final class FunctionsStateBootstrapOperator
     // bootstrap dataset is now completely processed;
     // take a snapshot of the function states
     final TaggedOperatorSubtaskState state =
-            SnapshotUtils.snapshot(
-                    0L,
-                    this,
-                    getRuntimeContext().getTaskInfo().getIndexOfThisSubtask(),
-                    snapshotTimestamp,
-                    CheckpointingMode.EXACTLY_ONCE,
-                    false,
-                    getContainingTask().getEnvironment().getTaskManagerInfo().getConfiguration(),
-                    snapshotPath
-            );
+        SnapshotUtils.snapshot(
+            0L,
+            this,
+            getRuntimeContext().getTaskInfo().getIndexOfThisSubtask(),
+            snapshotTimestamp,
+            CheckpointingMode.EXACTLY_ONCE,
+            false,
+            getContainingTask().getEnvironment().getTaskManagerInfo().getConfiguration(),
+            snapshotPath);
 
     output.collect(new StreamRecord<>(state));
   }

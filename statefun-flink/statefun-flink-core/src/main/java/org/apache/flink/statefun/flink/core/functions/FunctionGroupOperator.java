@@ -43,11 +43,9 @@ import org.apache.flink.statefun.sdk.FunctionType;
 import org.apache.flink.statefun.sdk.StatefulFunctionProvider;
 import org.apache.flink.statefun.sdk.io.EgressIdentifier;
 import org.apache.flink.streaming.api.operators.AbstractStreamOperator;
-import org.apache.flink.streaming.api.operators.ChainingStrategy;
 import org.apache.flink.streaming.api.operators.OneInputStreamOperator;
 import org.apache.flink.streaming.api.operators.StreamOperatorParameters;
 import org.apache.flink.streaming.runtime.streamrecord.StreamRecord;
-import org.apache.flink.streaming.runtime.tasks.ProcessingTimeService;
 import org.apache.flink.util.OutputTag;
 
 public class FunctionGroupOperator extends AbstractStreamOperator<Message>
@@ -70,18 +68,19 @@ public class FunctionGroupOperator extends AbstractStreamOperator<Message>
       Map<EgressIdentifier<?>, OutputTag<Object>> sideOutputs,
       StatefulFunctionsConfig configuration,
       StreamOperatorParameters<Message> parameters) {
-//      MailboxExecutor mailboxExecutor,
-//      ChainingStrategy chainingStrategy,
-//      ProcessingTimeService processingTimeService) {
+    //      MailboxExecutor mailboxExecutor,
+    //      ChainingStrategy chainingStrategy,
+    //      ProcessingTimeService processingTimeService) {
     this.sideOutputs = Objects.requireNonNull(sideOutputs);
     this.configuration = Objects.requireNonNull(configuration);
-//    this.mailboxExecutor = Objects.requireNonNull(mailboxExecutor);
-//    this.chainingStrategy = chainingStrategy;
-//    this.processingTimeService = processingTimeService;
+    //    this.mailboxExecutor = Objects.requireNonNull(mailboxExecutor);
+    //    this.chainingStrategy = chainingStrategy;
+    //    this.processingTimeService = processingTimeService;
 
     Objects.requireNonNull(parameters);
 
-    this.setup(parameters.getContainingTask(), parameters.getStreamConfig(), parameters.getOutput());
+    this.setup(
+        parameters.getContainingTask(), parameters.getStreamConfig(), parameters.getOutput());
     this.mailboxExecutor = Objects.requireNonNull(parameters.getMailboxExecutor());
     super.processingTimeService = parameters.getProcessingTimeService();
   }

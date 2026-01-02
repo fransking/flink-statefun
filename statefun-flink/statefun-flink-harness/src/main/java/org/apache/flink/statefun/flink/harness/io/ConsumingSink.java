@@ -17,11 +17,10 @@
  */
 package org.apache.flink.statefun.flink.harness.io;
 
+import java.util.Objects;
 import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.api.connector.sink2.SinkWriter;
 import org.apache.flink.api.connector.sink2.WriterInitContext;
-
-import java.util.Objects;
 
 final class ConsumingSink<T> implements Sink<T> {
 
@@ -42,10 +41,8 @@ final class ConsumingSink<T> implements Sink<T> {
       consumer.accept(value);
     }
 
-    public void flush(boolean endOfInput) {
-    }
+    public void flush(boolean endOfInput) {}
 
-    public void close() {
-    }
+    public void close() {}
   }
 }

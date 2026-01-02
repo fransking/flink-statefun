@@ -17,35 +17,34 @@
 
 package org.apache.flink.statefun.testutils.harness;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.flink.statefun.flink.harness.io.SerializableSupplier;
 import org.apache.flink.statefun.sdk.reqreply.generated.TypedValue;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 public class TestIngress {
-    private static final BlockingQueue<TypedValue> ingressQueue = new LinkedBlockingQueue<>();
-    private static boolean running = true;
+  private static final BlockingQueue<TypedValue> ingressQueue = new LinkedBlockingQueue<>();
+  private static boolean running = true;
 
-    public static void addMessage(TypedValue message) {
-        ingressQueue.add(message);
-    }
+  public static void addMessage(TypedValue message) {
+    ingressQueue.add(message);
+  }
 
-    public static void stop() {
-        running =  false;
-    }
+  public static void stop() {
+    running = false;
+  }
 
-    public static SerializableSupplier<TypedValue> get() {
-        return () -> {
-            try {
-                if (ingressQueue.isEmpty() && !running) {
-                    return null;
-                } else {
-                    return ingressQueue.take();
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        };
-    }
+  public static SerializableSupplier<TypedValue> get() {
+    return () -> {
+      try {
+        if (ingressQueue.isEmpty() && !running) {
+          return null;
+        } else {
+          return ingressQueue.take();
+        }
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+    };
+  }
 }

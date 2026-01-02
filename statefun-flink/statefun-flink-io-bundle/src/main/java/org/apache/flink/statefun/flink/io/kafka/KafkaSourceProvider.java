@@ -17,32 +17,32 @@
  */
 package org.apache.flink.statefun.flink.io.kafka;
 
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.flink.api.connector.source.Source;
+import org.apache.flink.api.connector.source.SourceSplit;
+import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
+import org.apache.flink.connector.kafka.source.reader.deserializer.KafkaRecordDeserializationSchema;
 import org.apache.flink.statefun.flink.io.spi.SourceProvider;
 import org.apache.flink.statefun.sdk.io.IngressSpec;
 import org.apache.flink.statefun.sdk.kafka.KafkaIngressSpec;
 import org.apache.flink.statefun.sdk.kafka.KafkaIngressStartupPosition;
-import org.apache.flink.api.connector.source.Source;
-import org.apache.flink.api.connector.source.SourceSplit;
-import org.apache.flink.connector.kafka.source.reader.deserializer.KafkaRecordDeserializationSchema;
-import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.statefun.sdk.kafka.KafkaTopicPartition;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.TopicPartition;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
 public class KafkaSourceProvider implements SourceProvider {
 
   @Override
-  public <T, SplitT extends SourceSplit, EnumChckT> Source<T, SplitT, EnumChckT> forSpec(IngressSpec<T> ingressSpec) {
+  public <T, SplitT extends SourceSplit, EnumChckT> Source<T, SplitT, EnumChckT> forSpec(
+      IngressSpec<T> ingressSpec) {
     KafkaIngressSpec<T> spec = asKafkaSpec(ingressSpec);
 
-    KafkaSource<T> source = KafkaSource
-            .<T>builder()
-            .setBootstrapServers(spec.properties().getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG))
+    KafkaSource<T> source =
+        KafkaSource.<T>builder()
+            .setBootstrapServers(
+                spec.properties().getProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG))
             .setGroupId(spec.properties().getProperty(ConsumerConfig.GROUP_ID_CONFIG))
             .setTopics(spec.topics())
             .setDeserializer(deserializationSchemaFromSpec(spec))
@@ -50,8 +50,8 @@ public class KafkaSourceProvider implements SourceProvider {
             .setProperties(spec.properties())
             .build();
 
-      //noinspection unchecked
-      return (Source<T, SplitT, EnumChckT>) source;
+    //noinspection unchecked
+    return (Source<T, SplitT, EnumChckT>) source;
   }
 
   private static <T> KafkaIngressSpec<T> asKafkaSpec(IngressSpec<T> ingressSpec) {
@@ -74,8 +74,10 @@ public class KafkaSourceProvider implements SourceProvider {
     } else if (startupPosition.isLatest()) {
       return OffsetsInitializer.latest();
     } else if (startupPosition.isSpecificOffsets()) {
-      KafkaIngressStartupPosition.SpecificOffsetsPosition offsetsPosition = startupPosition.asSpecificOffsets();
-      return OffsetsInitializer.offsets(convertKafkaTopicPartitionMap(offsetsPosition.specificOffsets()));
+      KafkaIngressStartupPosition.SpecificOffsetsPosition offsetsPosition =
+          startupPosition.asSpecificOffsets();
+      return OffsetsInitializer.offsets(
+          convertKafkaTopicPartitionMap(offsetsPosition.specificOffsets()));
     } else if (startupPosition.isDate()) {
       return OffsetsInitializer.timestamp(startupPosition.asDate().epochMilli());
     } else {
@@ -83,11 +85,13 @@ public class KafkaSourceProvider implements SourceProvider {
     }
   }
 
-  private <T> KafkaRecordDeserializationSchema<T> deserializationSchemaFromSpec(KafkaIngressSpec<T> spec) {
+  private <T> KafkaRecordDeserializationSchema<T> deserializationSchemaFromSpec(
+      KafkaIngressSpec<T> spec) {
     return new KafkaDeserializationSchemaDelegate<>(spec.deserializer());
   }
 
-  private static Map<TopicPartition, Long> convertKafkaTopicPartitionMap(Map<KafkaTopicPartition, Long> offsets) {
+  private static Map<TopicPartition, Long> convertKafkaTopicPartitionMap(
+      Map<KafkaTopicPartition, Long> offsets) {
     Map<TopicPartition, Long> result = new HashMap<>(offsets.size());
     for (Map.Entry<KafkaTopicPartition, Long> offset : offsets.entrySet()) {
       result.put(convertKafkaTopicPartition(offset.getKey()), offset.getValue());

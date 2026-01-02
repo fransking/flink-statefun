@@ -93,10 +93,10 @@ final class Reductions {
     container.add(messageFactory);
 
     container.add(
-            new Partition(
-                    context.getTaskInfo().getMaxNumberOfParallelSubtasks(),
-                    context.getTaskInfo().getNumberOfParallelSubtasks(),
-                    context.getTaskInfo().getIndexOfThisSubtask()));
+        new Partition(
+            context.getTaskInfo().getMaxNumberOfParallelSubtasks(),
+            context.getTaskInfo().getNumberOfParallelSubtasks(),
+            context.getTaskInfo().getIndexOfThisSubtask()));
 
     container.add(new RemoteSink(output));
     container.add(new SideOutputSink(sideOutputs, output));

@@ -21,33 +21,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HarnessUtils {
-    private static final Logger LOG = LoggerFactory.getLogger(HarnessUtils.class);
-    private static Thread harnessThread = null;
+  private static final Logger LOG = LoggerFactory.getLogger(HarnessUtils.class);
+  private static Thread harnessThread = null;
 
-    public static synchronized void ensureHarnessThreadIsRunning() {
-        if (harnessThread == null || !harnessThread.isAlive()) {
-            LOG.info("Starting test harness");
-            var harness = new Harness()
-                    .withParallelism(5)
-                    .withSupplyingIngress(IoIdentifiers.REQUEST_INGRESS, TestIngress.get())
-                    .withConsumingEgress(IoIdentifiers.RESULT_EGRESS, TestEgress::addMessage);
+  public static synchronized void ensureHarnessThreadIsRunning() {
+    if (harnessThread == null || !harnessThread.isAlive()) {
+      LOG.info("Starting test harness");
+      var harness =
+          new Harness()
+              .withParallelism(5)
+              .withSupplyingIngress(IoIdentifiers.REQUEST_INGRESS, TestIngress.get())
+              .withConsumingEgress(IoIdentifiers.RESULT_EGRESS, TestEgress::addMessage);
 
-            harnessThread =
-                    new Thread(
-                            () -> {
-                                try {
-                                    harness.start();
-                                } catch (InterruptedException ignored) {
-                                    LOG.info("Harness Interrupted");
-                                } catch (Exception exception) {
-                                    throw new RuntimeException(exception);
-                                }
-                            });
-            harnessThread.setName("harness-runner");
-            harnessThread.setDaemon(true);
-            harnessThread.start();
+      harnessThread =
+          new Thread(
+              () -> {
+                try {
+                  harness.start();
+                } catch (InterruptedException ignored) {
+                  LOG.info("Harness Interrupted");
+                } catch (Exception exception) {
+                  throw new RuntimeException(exception);
+                }
+              });
+      harnessThread.setName("harness-runner");
+      harnessThread.setDaemon(true);
+      harnessThread.start();
 
-            TestEgress.initialise(harnessThread);
-        }
+      TestEgress.initialise(harnessThread);
     }
+  }
 }

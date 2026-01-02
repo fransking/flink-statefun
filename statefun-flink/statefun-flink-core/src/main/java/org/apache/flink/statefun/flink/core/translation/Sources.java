@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.dag.Transformation;
@@ -94,11 +93,10 @@ final class Sources {
     Map<IngressIdentifier<?>, DataStream<?>> sourceStreams = new HashMap<>();
     sourceFunctions.forEach(
         (id, sourceFunction) -> {
-//          DataStreamSource<?> stream = env.addSource(sourceFunction.source);
-          DataStreamSource<?> stream = env.fromSource(
-                  sourceFunction.source,
-                  WatermarkStrategy.noWatermarks(),
-                  sourceFunction.name);
+          //          DataStreamSource<?> stream = env.addSource(sourceFunction.source);
+          DataStreamSource<?> stream =
+              env.fromSource(
+                  sourceFunction.source, WatermarkStrategy.noWatermarks(), sourceFunction.name);
 
           stream.name(sourceFunction.name);
           stream.uid(sourceFunction.uid);

@@ -20,7 +20,6 @@ package org.apache.flink.statefun.flink.harness;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
 import org.apache.flink.api.connector.source.Source;
 import org.apache.flink.configuration.CheckpointingOptions;
 import org.apache.flink.configuration.Configuration;

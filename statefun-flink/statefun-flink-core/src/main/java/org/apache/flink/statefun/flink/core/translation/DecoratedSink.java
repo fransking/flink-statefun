@@ -17,9 +17,9 @@
  */
 package org.apache.flink.statefun.flink.core.translation;
 
+import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.statefun.sdk.io.EgressIdentifier;
 import org.apache.flink.statefun.sdk.io.EgressSpec;
-import org.apache.flink.api.connector.sink2.Sink;
 
 final class DecoratedSink {
   final String name;

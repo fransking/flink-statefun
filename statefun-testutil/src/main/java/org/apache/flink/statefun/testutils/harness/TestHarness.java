@@ -16,32 +16,31 @@
  */
 
 package org.apache.flink.statefun.testutils.harness;
-import org.apache.flink.statefun.sdk.reqreply.generated.TypedValue;
+
 import com.google.protobuf.StringValue;
+import org.apache.flink.statefun.sdk.reqreply.generated.TypedValue;
 
 public class TestHarness {
 
-    public static TestHarness newInstance() {
-        HarnessUtils.ensureHarnessThreadIsRunning();
-        return new TestHarness();
-    }
+  public static TestHarness newInstance() {
+    HarnessUtils.ensureHarnessThreadIsRunning();
+    return new TestHarness();
+  }
 
-    public void addIngressMessage(String message) {
-        StringValue stringValue = StringValue.newBuilder().setValue(message).build();
+  public void addIngressMessage(String message) {
+    StringValue stringValue = StringValue.newBuilder().setValue(message).build();
 
-        TypedValue typedValue = TypedValue.newBuilder()
-                .setHasValue(true)
-                .setValue(stringValue.toByteString())
-                .build();
+    TypedValue typedValue =
+        TypedValue.newBuilder().setHasValue(true).setValue(stringValue.toByteString()).build();
 
-        TestIngress.addMessage(typedValue);
-    }
+    TestIngress.addMessage(typedValue);
+  }
 
-    public TypedValue getEgressMessage() {
-        return TestEgress.getMessage();
-    }
+  public TypedValue getEgressMessage() {
+    return TestEgress.getMessage();
+  }
 
-    public void shutdown() {
-        TestIngress.stop();
-    }
+  public void shutdown() {
+    TestIngress.stop();
+  }
 }
