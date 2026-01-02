@@ -25,6 +25,8 @@ import org.apache.flink.statefun.sdk.io.IngressSpec;
 import org.apache.flink.api.connector.sink2.Sink;
 
 import com.google.auto.service.AutoService;
+
+import java.util.HashSet;
 import java.util.Map;
 
 @AutoService(FlinkIoModule.class)
@@ -39,7 +41,7 @@ public class HarnessIoModule implements FlinkIoModule {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T, SplitT extends SourceSplit, EnumChckT> Source<T, SplitT, EnumChckT> supplingIngressSpec(IngressSpec<T> spec) {
+  private static <T> Source supplingIngressSpec(IngressSpec<T> spec) {
     SupplyingIngressSpec<T> casted = (SupplyingIngressSpec<T>) spec;
     return new SupplyingSource<>(casted.supplier());
   }

@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-public class SupplyingSourceReader<T, TSplit extends SourceSplit> implements SourceReader<T, TSplit> {
+public class SupplyingSourceReader<T> implements SourceReader<T, SupplyingSourceSplit<T>> {
     private final SerializableSupplier<T> supplier;
 
     public SupplyingSourceReader(SerializableSupplier<T> supplier) {
@@ -50,7 +50,7 @@ public class SupplyingSourceReader<T, TSplit extends SourceSplit> implements Sou
     }
 
     @Override
-    public List<TSplit> snapshotState(long l) {
+    public List<SupplyingSourceSplit<T>> snapshotState(long l) {
         return List.of();
     }
 
@@ -60,7 +60,7 @@ public class SupplyingSourceReader<T, TSplit extends SourceSplit> implements Sou
     }
 
     @Override
-    public void addSplits(List<TSplit> list) {
+    public void addSplits(List<SupplyingSourceSplit<T>> list) {
     }
 
     @Override

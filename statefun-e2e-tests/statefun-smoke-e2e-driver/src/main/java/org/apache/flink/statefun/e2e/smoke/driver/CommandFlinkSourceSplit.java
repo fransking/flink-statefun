@@ -15,32 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.flink.statefun.flink.harness.io;
+package org.apache.flink.statefun.e2e.smoke.driver;
 
 import org.apache.flink.api.connector.source.SourceSplit;
-import org.apache.flink.core.io.SimpleVersionedSerializer;
-import org.apache.flink.util.InstantiationUtil;
+import java.io.Serializable;
 
-import java.io.IOException;
 
-public class SupplyingSourceSplitSerializer<T> implements SimpleVersionedSerializer<SupplyingSourceSplit<T>> {
+public class CommandFlinkSourceSplit implements SourceSplit, Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @Override
-    public int getVersion() {
-        return 0;
+    private final int id;
+
+    public CommandFlinkSourceSplit(int id) {
+        this.id = id;
     }
 
     @Override
-    public byte[] serialize(SupplyingSourceSplit<T> split) throws IOException {
-        return InstantiationUtil.serializeObject(split);
-    }
-
-    @Override
-    public SupplyingSourceSplit<T> deserialize(int version, byte[] serialized) throws IOException {
-        try {
-            return InstantiationUtil.deserializeObject(serialized, getClass().getClassLoader());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Failed to deserialize the split.", e);
-        }
+    public String splitId() {
+        return Integer.toString(id);
     }
 }

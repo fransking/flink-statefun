@@ -15,9 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.flink.statefun.flink.harness.io;
+package org.apache.flink.statefun.e2e.smoke.driver;
 
-import org.apache.flink.api.connector.source.SourceSplit;
 import org.apache.flink.api.connector.source.SplitEnumerator;
 
 import javax.annotation.Nullable;
@@ -25,10 +24,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class SupplyingSourceSplitEnumerator<T> implements SplitEnumerator<SupplyingSourceSplit<T>, HashSet<SupplyingSourceSplit<T>>> {
-    private final List<SupplyingSourceSplit<T>> splits;
+public class CommandFlinkSourceSplitEnumerator implements SplitEnumerator<CommandFlinkSourceSplit, HashSet<CommandFlinkSourceSplit>> {
+    private final List<CommandFlinkSourceSplit> splits;
 
-    public SupplyingSourceSplitEnumerator() {
+    public CommandFlinkSourceSplitEnumerator() {
         this.splits = new ArrayList<>();
     }
 
@@ -39,17 +38,17 @@ public class SupplyingSourceSplitEnumerator<T> implements SplitEnumerator<Supply
     public void handleSplitRequest(int subtaskId, @Nullable String requesterHostname) {}
 
     @Override
-    public void addSplitsBack(List<SupplyingSourceSplit<T>> splits, int subTaskId) {
+    public void addSplitsBack(List<CommandFlinkSourceSplit> splits, int subTaskId) {
         this.splits.addAll(splits);
     }
 
     @Override
     public void addReader(int subtaskId) {
-        this.splits.add(new SupplyingSourceSplit<T>(subtaskId));
+        this.splits.add(new CommandFlinkSourceSplit(subtaskId));
     }
 
     @Override
-    public HashSet<SupplyingSourceSplit<T>> snapshotState(long l) {
+    public HashSet<CommandFlinkSourceSplit> snapshotState(long l) {
         return new HashSet<>(this.splits);
     }
 
