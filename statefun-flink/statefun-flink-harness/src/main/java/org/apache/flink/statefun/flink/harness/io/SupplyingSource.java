@@ -17,12 +17,12 @@
  */
 package org.apache.flink.statefun.flink.harness.io;
 
+import java.util.HashSet;
 import org.apache.flink.api.connector.source.*;
 import org.apache.flink.core.io.SimpleVersionedSerializer;
 
-import java.util.HashSet;
-
-final class SupplyingSource<T> implements Source<T, SupplyingSourceSplit<T>, HashSet<SupplyingSourceSplit<T>>> {
+final class SupplyingSource<T>
+    implements Source<T, SupplyingSourceSplit<T>, HashSet<SupplyingSourceSplit<T>>> {
   private static final long serialVersionUID = 1;
 
   private final SerializableSupplier<T> supplier;
@@ -37,12 +37,18 @@ final class SupplyingSource<T> implements Source<T, SupplyingSourceSplit<T>, Has
   }
 
   @Override
-  public SplitEnumerator<SupplyingSourceSplit<T>, HashSet<SupplyingSourceSplit<T>>> createEnumerator(SplitEnumeratorContext<SupplyingSourceSplit<T>> splitEnumeratorContext) throws Exception {
+  public SplitEnumerator<SupplyingSourceSplit<T>, HashSet<SupplyingSourceSplit<T>>>
+      createEnumerator(SplitEnumeratorContext<SupplyingSourceSplit<T>> splitEnumeratorContext)
+          throws Exception {
     return new SupplyingSourceSplitEnumerator<>();
   }
 
   @Override
-  public SplitEnumerator<SupplyingSourceSplit<T>, HashSet<SupplyingSourceSplit<T>>> restoreEnumerator(SplitEnumeratorContext<SupplyingSourceSplit<T>> splitEnumeratorContext, HashSet<SupplyingSourceSplit<T>> enumChck) throws Exception {
+  public SplitEnumerator<SupplyingSourceSplit<T>, HashSet<SupplyingSourceSplit<T>>>
+      restoreEnumerator(
+          SplitEnumeratorContext<SupplyingSourceSplit<T>> splitEnumeratorContext,
+          HashSet<SupplyingSourceSplit<T>> enumChck)
+          throws Exception {
     return new SupplyingSourceSplitEnumerator<>();
   }
 
@@ -52,12 +58,14 @@ final class SupplyingSource<T> implements Source<T, SupplyingSourceSplit<T>, Has
   }
 
   @Override
-  public SimpleVersionedSerializer<HashSet<SupplyingSourceSplit<T>>> getEnumeratorCheckpointSerializer() {
+  public SimpleVersionedSerializer<HashSet<SupplyingSourceSplit<T>>>
+      getEnumeratorCheckpointSerializer() {
     return null;
   }
 
   @Override
-  public SourceReader<T, SupplyingSourceSplit<T>> createReader(SourceReaderContext sourceReaderContext) {
+  public SourceReader<T, SupplyingSourceSplit<T>> createReader(
+      SourceReaderContext sourceReaderContext) {
     return new SupplyingSourceReader<>(this.supplier);
   }
 }

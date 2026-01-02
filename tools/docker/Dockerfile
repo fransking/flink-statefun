@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM apache/flink:1.19.1-scala_2.12-java11
+FROM apache/flink:2.2.0-scala_2.12-java11
 
 ENV ROLE worker
 ENV MASTER_HOST localhost

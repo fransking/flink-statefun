@@ -19,7 +19,6 @@ package org.apache.flink.statefun.flink.io.kafka;
 
 import java.util.Objects;
 import javax.annotation.Nullable;
-
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.statefun.sdk.kafka.KafkaEgressSerializer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -36,7 +35,8 @@ final class KafkaSerializationSchemaDelegate<T> implements KafkaRecordSerializat
 
   @Nullable
   @Override
-  public ProducerRecord<byte[], byte[]> serialize(T t, KafkaSinkContext kafkaSinkContext, Long aLong) {
+  public ProducerRecord<byte[], byte[]> serialize(
+      T t, KafkaSinkContext kafkaSinkContext, Long aLong) {
     return serializer.serialize(t);
   }
 }

@@ -22,8 +22,10 @@ import org.apache.flink.statefun.sdk.io.IngressIdentifier;
 import org.apache.flink.statefun.sdk.reqreply.generated.TypedValue;
 
 public final class IoIdentifiers {
-    public static final String NAMESPACE = "test";
-    public static final IngressIdentifier<TypedValue> REQUEST_INGRESS = new IngressIdentifier<>(TypedValue.class, NAMESPACE, "ingress");
-    public static final EgressIdentifier<TypedValue> RESULT_EGRESS = new EgressIdentifier<>(NAMESPACE, "egress", TypedValue.class);
-    public static final FunctionType ECHO_FUNCTION_TYPE = new FunctionType(NAMESPACE, "echo");
+  public static final String NAMESPACE = "test";
+  public static final IngressIdentifier<TypedValue> REQUEST_INGRESS =
+      new IngressIdentifier<>(TypedValue.class, NAMESPACE, "ingress");
+  public static final EgressIdentifier<TypedValue> RESULT_EGRESS =
+      new EgressIdentifier<>(NAMESPACE, "egress", TypedValue.class);
+  public static final FunctionType ECHO_FUNCTION_TYPE = new FunctionType(NAMESPACE, "echo");
 }

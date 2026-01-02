@@ -21,8 +21,8 @@ import org.apache.flink.statefun.sdk.io.Router;
 import org.apache.flink.statefun.sdk.reqreply.generated.TypedValue;
 
 public class TestPipelineRouter implements Router<TypedValue> {
-    @Override
-    public void route(TypedValue request, Downstream<TypedValue> downstream) {
-        downstream.forward(new Address(IoIdentifiers.ECHO_FUNCTION_TYPE, "id"), request);
-    }
+  @Override
+  public void route(TypedValue request, Downstream<TypedValue> downstream) {
+    downstream.forward(new Address(IoIdentifiers.ECHO_FUNCTION_TYPE, "id"), request);
+  }
 }

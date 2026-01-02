@@ -17,16 +17,17 @@
  */
 package org.apache.flink.statefun.flink.launcher;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import org.apache.flink.annotation.VisibleForTesting;
 import org.apache.flink.api.common.JobID;
+import org.apache.flink.client.deployment.application.ApplicationClusterEntryPoint;
 import org.apache.flink.client.program.PackagedProgram;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.CoreOptions;
 import org.apache.flink.runtime.entrypoint.ClusterEntrypoint;
-import org.apache.flink.client.deployment.application.ApplicationClusterEntryPoint;
 import org.apache.flink.runtime.entrypoint.parser.CommandLineParser;
 import org.apache.flink.runtime.jobmanager.HighAvailabilityMode;
 import org.apache.flink.runtime.resourcemanager.StandaloneResourceManagerFactory;
@@ -35,25 +36,24 @@ import org.apache.flink.runtime.util.JvmShutdownSafeguard;
 import org.apache.flink.runtime.util.SignalHandler;
 import org.apache.flink.statefun.flink.core.spi.Constants;
 
-
 /** {@link ApplicationClusterEntryPoint} which is started with a job in a predefined location. */
 public final class StatefulFunctionsClusterEntryPoint extends ApplicationClusterEntryPoint {
 
   public static final JobID ZERO_JOB_ID = new JobID(0, 0);
 
   private StatefulFunctionsClusterEntryPoint(
-          final Configuration configuration, final PackagedProgram program) {
+      final Configuration configuration, final PackagedProgram program) {
     super(configuration, program, StandaloneResourceManagerFactory.getInstance());
   }
 
   public static void main(String[] args) {
     EnvironmentInformation.logEnvironmentInfo(
-            LOG, StatefulFunctionsClusterEntryPoint.class.getSimpleName(), args);
+        LOG, StatefulFunctionsClusterEntryPoint.class.getSimpleName(), args);
     SignalHandler.register(LOG);
     JvmShutdownSafeguard.installAsShutdownHook(LOG);
 
     final CommandLineParser<StatefulFunctionsClusterConfiguration> commandLineParser =
-            new CommandLineParser<>(new StatefulFunctionsClusterConfigurationParserFactory());
+        new CommandLineParser<>(new StatefulFunctionsClusterConfigurationParserFactory());
     StatefulFunctionsClusterConfiguration clusterConfiguration = null;
 
     try {
@@ -65,16 +65,21 @@ public final class StatefulFunctionsClusterEntryPoint extends ApplicationCluster
     }
 
     Configuration configuration = loadConfiguration(clusterConfiguration);
+    LOG.info("Loaded configuration {}.", configuration);
+
     addStatefulFunctionsConfiguration(configuration);
     setDefaultExecutionModeIfNotConfigured(configuration);
 
     PackagedProgram packagedProgram = null;
     try {
-      packagedProgram = new StatefulFunctionsJobGraphRetriever(
-              resolveJobIdForCluster(Optional.ofNullable(clusterConfiguration.getJobId()), configuration),
-              clusterConfiguration.getSavepointRestoreSettings(),
-              clusterConfiguration.getParallelism(),
-              clusterConfiguration.getArgs()).createPackagedProgram();
+      packagedProgram =
+          new StatefulFunctionsJobGraphRetriever(
+                  resolveJobIdForCluster(
+                      Optional.ofNullable(clusterConfiguration.getJobId()), configuration),
+                  clusterConfiguration.getSavepointRestoreSettings(),
+                  clusterConfiguration.getParallelism(),
+                  clusterConfiguration.getArgs())
+              .createPackagedProgram();
     } catch (Exception e) {
       LOG.error("Could not create packaged program.", e);
       System.exit(1);
@@ -82,13 +87,14 @@ public final class StatefulFunctionsClusterEntryPoint extends ApplicationCluster
 
     try {
       configureExecution(configuration, packagedProgram);
+      LOG.info("Applied configuration {}.", configuration);
     } catch (Exception e) {
       LOG.error("Could not apply application configuration.", e);
       System.exit(1);
     }
 
     StatefulFunctionsClusterEntryPoint entrypoint =
-            new StatefulFunctionsClusterEntryPoint(configuration, packagedProgram);
+        new StatefulFunctionsClusterEntryPoint(configuration, packagedProgram);
 
     ClusterEntrypoint.runClusterEntrypoint(entrypoint);
   }
@@ -96,7 +102,7 @@ public final class StatefulFunctionsClusterEntryPoint extends ApplicationCluster
   @VisibleForTesting
   @Nonnull
   static JobID resolveJobIdForCluster(Optional<JobID> optionalJobID, Configuration configuration) {
-      return optionalJobID.orElseGet(() -> createJobIdForCluster(configuration));
+    return optionalJobID.orElseGet(() -> createJobIdForCluster(configuration));
   }
 
   @Nonnull
@@ -124,7 +130,7 @@ public final class StatefulFunctionsClusterEntryPoint extends ApplicationCluster
 
   private static void addStatefulFunctionsConfiguration(Configuration configuration) {
     List<String> patterns =
-        configuration.get(CoreOptions.ALWAYS_PARENT_FIRST_LOADER_PATTERNS_ADDITIONAL);
+        configuration.get(CoreOptions.ALWAYS_PARENT_FIRST_LOADER_PATTERNS_ADDITIONAL, new ArrayList<>());
     if (!patterns.contains(Constants.STATEFUL_FUNCTIONS_PACKAGE)) {
       patterns.add(Constants.STATEFUL_FUNCTIONS_PACKAGE);
     }

@@ -165,22 +165,22 @@ public final class MessageTypeSerializer extends TypeSerializer<Message> {
       return new MessageTypeSerializer(messageFactoryKey);
     }
 
-//    @Override
-//    public TypeSerializerSchemaCompatibility<Message> resolveSchemaCompatibility(
-//        TypeSerializer<Message> typeSerializer) {
-//      if (!(typeSerializer instanceof MessageTypeSerializer)) {
-//        return TypeSerializerSchemaCompatibility.incompatible();
-//      }
-//      MessageTypeSerializer casted = (MessageTypeSerializer) typeSerializer;
-//      if (casted.messageFactoryKey.equals(messageFactoryKey)) {
-//        return TypeSerializerSchemaCompatibility.compatibleAsIs();
-//      }
-//      return TypeSerializerSchemaCompatibility.incompatible();
-//    }
+    //    @Override
+    //    public TypeSerializerSchemaCompatibility<Message> resolveSchemaCompatibility(
+    //        TypeSerializer<Message> typeSerializer) {
+    //      if (!(typeSerializer instanceof MessageTypeSerializer)) {
+    //        return TypeSerializerSchemaCompatibility.incompatible();
+    //      }
+    //      MessageTypeSerializer casted = (MessageTypeSerializer) typeSerializer;
+    //      if (casted.messageFactoryKey.equals(messageFactoryKey)) {
+    //        return TypeSerializerSchemaCompatibility.compatibleAsIs();
+    //      }
+    //      return TypeSerializerSchemaCompatibility.incompatible();
+    //    }
 
     @Override
     public TypeSerializerSchemaCompatibility<Message> resolveSchemaCompatibility(
-            TypeSerializerSnapshot<Message> typeSerializerSnapshot) {
+        TypeSerializerSnapshot<Message> typeSerializerSnapshot) {
 
       TypeSerializer<Message> typeSerializer = typeSerializerSnapshot.restoreSerializer();
 

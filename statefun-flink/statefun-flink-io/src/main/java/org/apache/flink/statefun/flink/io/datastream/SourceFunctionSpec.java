@@ -19,18 +19,19 @@ package org.apache.flink.statefun.flink.io.datastream;
 
 import java.io.Serializable;
 import java.util.Objects;
+import org.apache.flink.api.connector.source.Source;
+import org.apache.flink.api.connector.source.SourceSplit;
 import org.apache.flink.statefun.sdk.IngressType;
 import org.apache.flink.statefun.sdk.io.IngressIdentifier;
 import org.apache.flink.statefun.sdk.io.IngressSpec;
-import org.apache.flink.api.connector.source.Source;
-import org.apache.flink.api.connector.source.SourceSplit;
 
 /**
  * An {@link IngressSpec} that can run any Apache Flink {@link Source}.
  *
  * @param <T> The input type consumed by the source.
  */
-public final class SourceFunctionSpec<T, SplitT extends SourceSplit, EnumChckT> implements IngressSpec<T>, Serializable {
+public final class SourceFunctionSpec<T, SplitT extends SourceSplit, EnumChckT>
+    implements IngressSpec<T>, Serializable {
   private static final long serialVersionUID = 1;
 
   static final IngressType TYPE =

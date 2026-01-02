@@ -17,7 +17,10 @@
  */
 package org.apache.flink.statefun.flink.io.kafka;
 
+import org.apache.flink.api.connector.sink2.Sink;
+import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
+import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.connector.kafka.sink.KafkaSinkBuilder;
 import org.apache.flink.statefun.flink.io.common.ReflectionUtil;
 import org.apache.flink.statefun.flink.io.spi.SinkProvider;
@@ -25,9 +28,6 @@ import org.apache.flink.statefun.sdk.io.EgressSpec;
 import org.apache.flink.statefun.sdk.kafka.KafkaEgressSerializer;
 import org.apache.flink.statefun.sdk.kafka.KafkaEgressSpec;
 import org.apache.flink.statefun.sdk.kafka.KafkaProducerSemantic;
-import org.apache.flink.connector.base.DeliveryGuarantee;
-import org.apache.flink.api.connector.sink2.Sink;
-import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.kafka.clients.producer.ProducerConfig;
 
 public class KafkaSinkProvider implements SinkProvider {
@@ -37,8 +37,8 @@ public class KafkaSinkProvider implements SinkProvider {
     KafkaEgressSpec<T> spec = asSpec(egressSpec);
     DeliveryGuarantee producerSemantic = semanticFromSpec(spec);
 
-    KafkaSinkBuilder<T> sinkBuilder = KafkaSink
-            .<T>builder()
+    KafkaSinkBuilder<T> sinkBuilder =
+        KafkaSink.<T>builder()
             .setBootstrapServers(spec.kafkaAddress())
             .setRecordSerializer(serializationSchemaFromSpec(spec))
             .setDeliveryGuarantee(producerSemantic);
@@ -46,16 +46,17 @@ public class KafkaSinkProvider implements SinkProvider {
     spec.properties().forEach((k, v) -> sinkBuilder.setProperty(k.toString(), v.toString()));
 
     if (producerSemantic == DeliveryGuarantee.EXACTLY_ONCE) {
-      long transactionTimeout = spec.semantic().asExactlyOnceSemantic().transactionTimeout().toMillis();
+      long transactionTimeout =
+          spec.semantic().asExactlyOnceSemantic().transactionTimeout().toMillis();
       sinkBuilder.setProperty(
-              ProducerConfig.TRANSACTION_TIMEOUT_CONFIG,
-              String.valueOf(transactionTimeout));
+          ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, String.valueOf(transactionTimeout));
     }
 
     return sinkBuilder.build();
   }
 
-  private <T> KafkaRecordSerializationSchema<T> serializationSchemaFromSpec(KafkaEgressSpec<T> spec) {
+  private <T> KafkaRecordSerializationSchema<T> serializationSchemaFromSpec(
+      KafkaEgressSpec<T> spec) {
     KafkaEgressSerializer<T> serializer = ReflectionUtil.instantiate(spec.serializerClass());
     return new KafkaSerializationSchemaDelegate<>(serializer);
   }

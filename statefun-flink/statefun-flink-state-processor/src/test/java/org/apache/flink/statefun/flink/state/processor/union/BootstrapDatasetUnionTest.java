@@ -72,7 +72,8 @@ public class BootstrapDatasetUnionTest {
             Arrays.asList(true, false),
             () -> new TestRouter<>(addressOf("ns", "name-2", "id-99"), 1)));
 
-    final List<TaggedBootstrapData> test = BootstrapDatasetUnion.apply(bootstrapDatasets).executeAndCollect(100);
+    final List<TaggedBootstrapData> test =
+        BootstrapDatasetUnion.apply(bootstrapDatasets).executeAndCollect(100);
 
     assertThat(
         test,

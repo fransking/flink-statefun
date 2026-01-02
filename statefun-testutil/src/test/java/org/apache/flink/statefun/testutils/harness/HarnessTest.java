@@ -16,25 +16,24 @@
 
 package org.apache.flink.statefun.testutils.harness;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.StringValue;
 import org.apache.flink.statefun.sdk.reqreply.generated.TypedValue;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-
 public class HarnessTest {
-    @Test
-    public void basicHarnessTest() throws InvalidProtocolBufferException {
-        TestHarness harness = TestHarness.newInstance();
-        harness.addIngressMessage("a test message");
+  @Test
+  public void basicHarnessTest() throws InvalidProtocolBufferException {
+    TestHarness harness = TestHarness.newInstance();
+    harness.addIngressMessage("a test message");
 
-        TypedValue value = harness.getEgressMessage();
-        harness.shutdown();
+    TypedValue value = harness.getEgressMessage();
+    harness.shutdown();
 
-        String result = StringValue.parseFrom(value.getValue()).getValue();
-        assertThat(result, is("a test message"));
-    }
+    String result = StringValue.parseFrom(value.getValue()).getValue();
+    assertThat(result, is("a test message"));
+  }
 }

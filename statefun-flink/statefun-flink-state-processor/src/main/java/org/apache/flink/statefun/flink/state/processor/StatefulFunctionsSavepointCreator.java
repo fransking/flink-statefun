@@ -19,31 +19,31 @@ package org.apache.flink.statefun.flink.state.processor;
 
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.flink.state.api.OperatorIdentifier;
-import org.apache.flink.state.api.StateBootstrapTransformation;
-import org.apache.flink.statefun.flink.state.processor.operator.FunctionsStateBootstrapOperatorFactory;
-import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.runtime.state.StateBackend;
-import org.apache.flink.state.rocksdb.EmbeddedRocksDBStateBackend;
+import org.apache.flink.state.api.OperatorIdentifier;
 import org.apache.flink.state.api.OperatorTransformation;
 import org.apache.flink.state.api.SavepointWriter;
+import org.apache.flink.state.api.StateBootstrapTransformation;
+import org.apache.flink.state.rocksdb.EmbeddedRocksDBStateBackend;
 import org.apache.flink.statefun.flink.core.StatefulFunctionsJobConstants;
+import org.apache.flink.statefun.flink.state.processor.operator.FunctionsStateBootstrapOperatorFactory;
 import org.apache.flink.statefun.flink.state.processor.operator.StateBootstrapFunctionRegistry;
 import org.apache.flink.statefun.flink.state.processor.union.BootstrapDataset;
 import org.apache.flink.statefun.flink.state.processor.union.BootstrapDatasetUnion;
 import org.apache.flink.statefun.flink.state.processor.union.TaggedBootstrapData;
 import org.apache.flink.statefun.sdk.FunctionType;
 import org.apache.flink.statefun.sdk.io.Router;
+import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.util.Preconditions;
 
 /**
  * Entry point for generating a new savepoint for a Stateful Functions application.
  *
  * <p>Users register multiple {@link StateBootstrapFunction}s that each define how to bootstrap a
- * given stateful function, as well as provide Flink {@link DataStream}s that contain data that serve
- * as input for the bootstrap functions. The {@code StatefulFunctionsSavepointCreator} can then be
- * used to construct a Flink batch job which writes out a savepoint that contains the bootstrapped
- * state and may be used to restore a Stateful Functions application.
+ * given stateful function, as well as provide Flink {@link DataStream}s that contain data that
+ * serve as input for the bootstrap functions. The {@code StatefulFunctionsSavepointCreator} can
+ * then be used to construct a Flink batch job which writes out a savepoint that contains the
+ * bootstrapped state and may be used to restore a Stateful Functions application.
  */
 public class StatefulFunctionsSavepointCreator {
 
@@ -69,8 +69,8 @@ public class StatefulFunctionsSavepointCreator {
   }
 
   /**
-   * Registers a Flink {@link DataStream} to be used as inputs to {@link StateBootstrapFunction}s for
-   * bootstrapping state. A provider for a {@link Router} that addresses each element in the
+   * Registers a Flink {@link DataStream} to be used as inputs to {@link StateBootstrapFunction}s
+   * for bootstrapping state. A provider for a {@link Router} that addresses each element in the
    * bootstrap dataset to {@link StateBootstrapFunction} instances must also be defined.
    *
    * <p>For all bootstrap functions that may receive a state bootstrap input, a {@link
@@ -115,7 +115,8 @@ public class StatefulFunctionsSavepointCreator {
         stateBootstrapFunctionRegistry.numRegistrations() > 0,
         "At least 1 StateBootstrapFunctionProvider must be registered.");
 
-    final SavepointWriter newSavepoint = SavepointWriter.newSavepoint(null, stateBackend, maxParallelism);
+    final SavepointWriter newSavepoint =
+        SavepointWriter.newSavepoint(null, stateBackend, maxParallelism);
 
     final DataStream<TaggedBootstrapData> taggedUnionBootstrapDataset =
         BootstrapDatasetUnion.apply(bootstrapDatasets);
@@ -129,8 +130,8 @@ public class StatefulFunctionsSavepointCreator {
                         stateBootstrapFunctionRegistry, timestamp, savepointPath));
 
     newSavepoint.withOperator(
-            OperatorIdentifier.forUid(StatefulFunctionsJobConstants.FUNCTION_OPERATOR_UID),
-            bootstrapTransformation);
+        OperatorIdentifier.forUid(StatefulFunctionsJobConstants.FUNCTION_OPERATOR_UID),
+        bootstrapTransformation);
 
     newSavepoint.write(path);
   }

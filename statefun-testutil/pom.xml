@@ -36,7 +36,7 @@ under the License.
         <dependency>
             <groupId>com.sbbsystems.flink</groupId>
             <artifactId>statefun-sdk-protos</artifactId>
-            <version>3.4-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>

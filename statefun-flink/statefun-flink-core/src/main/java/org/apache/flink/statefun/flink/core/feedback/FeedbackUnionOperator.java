@@ -32,11 +32,9 @@ import org.apache.flink.statefun.flink.core.logger.Loggers;
 import org.apache.flink.statefun.flink.core.logger.UnboundedFeedbackLogger;
 import org.apache.flink.statefun.flink.core.logger.UnboundedFeedbackLoggerFactory;
 import org.apache.flink.streaming.api.operators.AbstractStreamOperator;
-import org.apache.flink.streaming.api.operators.ChainingStrategy;
 import org.apache.flink.streaming.api.operators.OneInputStreamOperator;
 import org.apache.flink.streaming.api.operators.StreamOperatorParameters;
 import org.apache.flink.streaming.runtime.streamrecord.StreamRecord;
-import org.apache.flink.streaming.runtime.tasks.ProcessingTimeService;
 import org.apache.flink.util.IOUtils;
 
 public final class FeedbackUnionOperator<T> extends AbstractStreamOperator<T>
@@ -63,23 +61,24 @@ public final class FeedbackUnionOperator<T> extends AbstractStreamOperator<T>
       SerializableFunction<T, ?> keySelector,
       long totalMemoryUsedForFeedbackCheckpointing,
       TypeSerializer<T> elementSerializer,
-//      MailboxExecutor mailboxExecutor,
-//      ProcessingTimeService processingTimeService,
+      //      MailboxExecutor mailboxExecutor,
+      //      ProcessingTimeService processingTimeService,
       StreamOperatorParameters<T> parameters) {
     this.feedbackKey = Objects.requireNonNull(feedbackKey);
     this.isBarrierMessage = Objects.requireNonNull(isBarrierMessage);
     this.keySelector = Objects.requireNonNull(keySelector);
     this.totalMemoryUsedForFeedbackCheckpointing = totalMemoryUsedForFeedbackCheckpointing;
     this.elementSerializer = Objects.requireNonNull(elementSerializer);
-    //this.mailboxExecutor = Objects.requireNonNull(mailboxExecutor);
-//    this.chainingStrategy = ChainingStrategy.ALWAYS;
+    // this.mailboxExecutor = Objects.requireNonNull(mailboxExecutor);
+    //    this.chainingStrategy = ChainingStrategy.ALWAYS;
     // Even though this operator does not use the processing
     // time service, AbstractStreamOperator requires this
     // field is non-null, otherwise we get a NullPointerException
 
     Objects.requireNonNull(parameters);
 
-    this.setup(parameters.getContainingTask(), parameters.getStreamConfig(), parameters.getOutput());
+    this.setup(
+        parameters.getContainingTask(), parameters.getStreamConfig(), parameters.getOutput());
     this.mailboxExecutor = Objects.requireNonNull(parameters.getMailboxExecutor());
     super.processingTimeService = parameters.getProcessingTimeService();
   }
@@ -112,7 +111,7 @@ public final class FeedbackUnionOperator<T> extends AbstractStreamOperator<T>
     super.initializeState(context);
 
     final IOManager ioManager = getContainingTask().getEnvironment().getIOManager();
-//    final int maxParallelism = getRuntimeContext().getMaxNumberOfParallelSubtasks();
+    //    final int maxParallelism = getRuntimeContext().getMaxNumberOfParallelSubtasks();
     final int maxParallelism = getRuntimeContext().getTaskInfo().getMaxNumberOfParallelSubtasks();
 
     this.reusable = new StreamRecord<>(null);
@@ -175,9 +174,9 @@ public final class FeedbackUnionOperator<T> extends AbstractStreamOperator<T>
   }
 
   private void registerFeedbackConsumer(Executor mailboxExecutor) {
-//    final int indexOfThisSubtask = getRuntimeContext().getIndexOfThisSubtask();
+    //    final int indexOfThisSubtask = getRuntimeContext().getIndexOfThisSubtask();
     final int indexOfThisSubtask = getRuntimeContext().getTaskInfo().getIndexOfThisSubtask();
-//    final int attemptNum = getRuntimeContext().getAttemptNumber();
+    //    final int attemptNum = getRuntimeContext().getAttemptNumber();
     final int attemptNum = getRuntimeContext().getTaskInfo().getAttemptNumber();
     final SubtaskFeedbackKey<T> key = feedbackKey.withSubTaskIndex(indexOfThisSubtask, attemptNum);
     FeedbackChannelBroker broker = FeedbackChannelBroker.get();

@@ -31,7 +31,7 @@ classloader.parent-first-patterns.additional: org.apache.flink.statefun;org.apac
 #execution.checkpointing.mode: EXACTLY_ONCE
 #execution.checkpointing.interval: 5sec
 
-restart-strategy: fixed-delay
+restart-strategy.type: fixed-delay
 restart-strategy.fixed-delay.attempts: 2147483647
 restart-strategy.fixed-delay.delay: 1sec
 
@@ -43,7 +43,7 @@ state.backend.rocksdb.memory.partitioned-index-filters: true
 state.backend.rocksdb.checkpoint.transfer.thread.num: 8
 state.backend.rocksdb.thread.num: 4
 state.checkpoints.dir: file:///checkpoint-dir
-state.backend.incremental: true
+execution.checkpointing.incremental: true
 
 taskmanager.state.local.root-dirs: file:///local/state/recovery
 

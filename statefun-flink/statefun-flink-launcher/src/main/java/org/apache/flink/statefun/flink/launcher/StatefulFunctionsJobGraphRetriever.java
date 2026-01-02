@@ -93,11 +93,11 @@ final class StatefulFunctionsJobGraphRetriever implements JobGraphRetriever {
     }
     try {
       return PackagedProgram.newBuilder()
-              .setJarFile(mainJar)
-              .setUserClassPaths(obtainModuleAdditionalClassPath())
-              .setEntryPointClassName(StatefulFunctionsJob.class.getName())
-              .setArguments(programArguments)
-              .build();
+          .setJarFile(mainJar)
+          .setUserClassPaths(obtainModuleAdditionalClassPath())
+          .setEntryPointClassName(StatefulFunctionsJob.class.getName())
+          .setArguments(programArguments)
+          .build();
     } catch (ProgramInvocationException e) {
       throw new RuntimeException("Unable to construct a packaged program", e);
     }
