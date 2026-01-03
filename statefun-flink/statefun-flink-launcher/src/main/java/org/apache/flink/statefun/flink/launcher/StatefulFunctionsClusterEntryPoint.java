@@ -17,6 +17,7 @@
  */
 package org.apache.flink.statefun.flink.launcher;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nonnull;
@@ -64,6 +65,8 @@ public final class StatefulFunctionsClusterEntryPoint extends ApplicationCluster
     }
 
     Configuration configuration = loadConfiguration(clusterConfiguration);
+    LOG.info("Loaded configuration {}.", configuration);
+
     addStatefulFunctionsConfiguration(configuration);
     setDefaultExecutionModeIfNotConfigured(configuration);
 
@@ -84,6 +87,7 @@ public final class StatefulFunctionsClusterEntryPoint extends ApplicationCluster
 
     try {
       configureExecution(configuration, packagedProgram);
+      LOG.info("Applied configuration {}.", configuration);
     } catch (Exception e) {
       LOG.error("Could not apply application configuration.", e);
       System.exit(1);
@@ -126,7 +130,7 @@ public final class StatefulFunctionsClusterEntryPoint extends ApplicationCluster
 
   private static void addStatefulFunctionsConfiguration(Configuration configuration) {
     List<String> patterns =
-        configuration.get(CoreOptions.ALWAYS_PARENT_FIRST_LOADER_PATTERNS_ADDITIONAL);
+        configuration.get(CoreOptions.ALWAYS_PARENT_FIRST_LOADER_PATTERNS_ADDITIONAL, new ArrayList<>());
     if (!patterns.contains(Constants.STATEFUL_FUNCTIONS_PACKAGE)) {
       patterns.add(Constants.STATEFUL_FUNCTIONS_PACKAGE);
     }
