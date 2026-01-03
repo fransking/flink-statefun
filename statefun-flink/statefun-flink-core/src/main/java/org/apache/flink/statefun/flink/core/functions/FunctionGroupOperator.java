@@ -68,14 +68,8 @@ public class FunctionGroupOperator extends AbstractStreamOperator<Message>
       Map<EgressIdentifier<?>, OutputTag<Object>> sideOutputs,
       StatefulFunctionsConfig configuration,
       StreamOperatorParameters<Message> parameters) {
-    //      MailboxExecutor mailboxExecutor,
-    //      ChainingStrategy chainingStrategy,
-    //      ProcessingTimeService processingTimeService) {
     this.sideOutputs = Objects.requireNonNull(sideOutputs);
     this.configuration = Objects.requireNonNull(configuration);
-    //    this.mailboxExecutor = Objects.requireNonNull(mailboxExecutor);
-    //    this.chainingStrategy = chainingStrategy;
-    //    this.processingTimeService = processingTimeService;
 
     Objects.requireNonNull(parameters);
 

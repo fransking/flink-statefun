@@ -25,7 +25,6 @@ import org.apache.flink.statefun.flink.core.common.SerializableFunction;
 import org.apache.flink.streaming.api.operators.*;
 
 public final class FeedbackUnionOperatorFactory<E> implements OneInputStreamOperatorFactory<E, E> {
-  // implements OneInputStreamOperatorFactory<E, E>, YieldingOperatorFactory<E> {
 
   private static final long serialVersionUID = 1;
 
@@ -34,8 +33,6 @@ public final class FeedbackUnionOperatorFactory<E> implements OneInputStreamOper
   private final FeedbackKey<E> feedbackKey;
   private final SerializableFunction<E, OptionalLong> isBarrierMessage;
   private final SerializableFunction<E, ?> keySelector;
-
-  //  private transient MailboxExecutor mailboxExecutor;
 
   public FeedbackUnionOperatorFactory(
       StatefulFunctionsConfig configuration,
@@ -65,24 +62,10 @@ public final class FeedbackUnionOperatorFactory<E> implements OneInputStreamOper
             keySelector,
             configuration.getFeedbackBufferSize().getBytes(),
             serializer,
-            // mailboxExecutor,
-            //            streamOperatorParameters.getMailboxExecutor(),
-            //            streamOperatorParameters.getProcessingTimeService(),
             streamOperatorParameters);
-
-    //    op.setup(
-    //        streamOperatorParameters.getContainingTask(),
-    //        streamOperatorParameters.getStreamConfig(),
-    //        streamOperatorParameters.getOutput());
 
     return (T) op;
   }
-
-  //  @Override
-  //  public void setMailboxExecutor(MailboxExecutor mailboxExecutor) {
-  //    this.mailboxExecutor =
-  //        Objects.requireNonNull(mailboxExecutor, "Mailbox executor can't be NULL");
-  //  }
 
   @Override
   public void setChainingStrategy(ChainingStrategy chainingStrategy) {

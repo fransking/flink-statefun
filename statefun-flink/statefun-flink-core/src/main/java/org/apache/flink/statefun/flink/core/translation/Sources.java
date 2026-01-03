@@ -93,7 +93,6 @@ final class Sources {
     Map<IngressIdentifier<?>, DataStream<?>> sourceStreams = new HashMap<>();
     sourceFunctions.forEach(
         (id, sourceFunction) -> {
-          //          DataStreamSource<?> stream = env.addSource(sourceFunction.source);
           DataStreamSource<?> stream =
               env.fromSource(
                   sourceFunction.source, WatermarkStrategy.noWatermarks(), sourceFunction.name);

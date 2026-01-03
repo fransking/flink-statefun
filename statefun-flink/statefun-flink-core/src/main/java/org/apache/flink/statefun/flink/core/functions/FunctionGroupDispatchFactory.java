@@ -27,8 +27,6 @@ import org.apache.flink.util.OutputTag;
 
 public final class FunctionGroupDispatchFactory
     implements OneInputStreamOperatorFactory<Message, Message> {
-  //    implements OneInputStreamOperatorFactory<Message, Message>, YieldingOperatorFactory<Message>
-  // {
 
   private static final long serialVersionUID = 1;
 
@@ -45,25 +43,11 @@ public final class FunctionGroupDispatchFactory
     this.sideOutputs = sideOutputs;
   }
 
-  //  @Override
-  //  public void setMailboxExecutor(MailboxExecutor mailboxExecutor) {
-  //    this.mailboxExecutor =
-  //        Objects.requireNonNull(mailboxExecutor, "Mailbox executor can't be NULL");
-  //  }
-
   @Override
   public <T extends StreamOperator<Message>> T createStreamOperator(
       StreamOperatorParameters<Message> streamOperatorParameters) {
     FunctionGroupOperator fn =
         new FunctionGroupOperator(sideOutputs, configuration, streamOperatorParameters);
-    //            mailboxExecutor,
-    //            ChainingStrategy.ALWAYS,
-    //            streamOperatorParameters.getProcessingTimeService());
-
-    //    fn.setup(
-    //        streamOperatorParameters.getContainingTask(),
-    //        streamOperatorParameters.getStreamConfig(),
-    //        streamOperatorParameters.getOutput());
 
     return (T) fn;
   }
