@@ -130,7 +130,8 @@ public final class StatefulFunctionsClusterEntryPoint extends ApplicationCluster
 
   private static void addStatefulFunctionsConfiguration(Configuration configuration) {
     List<String> patterns =
-        configuration.get(CoreOptions.ALWAYS_PARENT_FIRST_LOADER_PATTERNS_ADDITIONAL, new ArrayList<>());
+        configuration.get(
+            CoreOptions.ALWAYS_PARENT_FIRST_LOADER_PATTERNS_ADDITIONAL, new ArrayList<>());
     if (!patterns.contains(Constants.STATEFUL_FUNCTIONS_PACKAGE)) {
       patterns.add(Constants.STATEFUL_FUNCTIONS_PACKAGE);
     }

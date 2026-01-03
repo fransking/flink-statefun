@@ -57,7 +57,6 @@ public final class IngressRouterOperator<T> extends AbstractStreamOperator<Messa
   IngressRouterOperator(StatefulFunctionsConfig configuration, IngressIdentifier<T> id) {
     this.configuration = configuration;
     this.id = Objects.requireNonNull(id);
-
   }
 
   @Override
