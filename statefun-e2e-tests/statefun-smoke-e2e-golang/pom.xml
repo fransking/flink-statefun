@@ -19,7 +19,7 @@ under the License.
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.apache.flink</groupId>
+        <groupId>com.sbbsystems.flink</groupId>
         <artifactId>statefun-smoke-e2e-multilang-base</artifactId>
         <version>3.4-SNAPSHOT</version>
         <relativePath>../statefun-smoke-e2e-multilang-base/pom.xml</relativePath>

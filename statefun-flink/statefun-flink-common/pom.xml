@@ -21,7 +21,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.flink</groupId>
+        <groupId>com.sbbsystems.flink</groupId>
         <artifactId>statefun-flink</artifactId>
         <version>3.4-SNAPSHOT</version>
         <relativePath>..</relativePath>
@@ -35,7 +35,7 @@ under the License.
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.flink</groupId>
+            <groupId>com.sbbsystems.flink</groupId>
             <artifactId>statefun-sdk-embedded</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -107,7 +107,7 @@ under the License.
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.apache.flink</groupId>
+                                    <groupId>com.sbbsystems.flink</groupId>
                                     <artifactId>statefun-sdk-protos</artifactId>
                                     <version>${project.version}</version>
                                     <type>jar</type>

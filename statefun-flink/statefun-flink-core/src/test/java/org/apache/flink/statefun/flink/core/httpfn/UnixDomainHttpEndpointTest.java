@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.net.URI;
+import java.nio.file.Paths;
 import org.junit.Test;
 
 public class UnixDomainHttpEndpointTest {
@@ -30,7 +31,7 @@ public class UnixDomainHttpEndpointTest {
     UnixDomainHttpEndpoint out =
         UnixDomainHttpEndpoint.parseFrom(URI.create("http+unix:///some/path.sock"));
 
-    assertEquals("/some/path.sock", out.unixDomainFile.toString());
+    assertEquals(Paths.get("/some", "path.sock").toString(), out.unixDomainFile.toString());
     assertEquals("/", out.pathSegment);
   }
 
@@ -39,7 +40,7 @@ public class UnixDomainHttpEndpointTest {
     UnixDomainHttpEndpoint out =
         UnixDomainHttpEndpoint.parseFrom(URI.create("http+unix:///some/path.sock/hello"));
 
-    assertEquals("/some/path.sock", out.unixDomainFile.toString());
+    assertEquals(Paths.get("/some", "path.sock").toString(), out.unixDomainFile.toString());
     assertEquals("/hello", out.pathSegment);
   }
 

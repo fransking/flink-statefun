@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
 <!--
 Licensed to the Apache Software Foundation (ASF) under one
 or more contributor license agreements.  See the NOTICE file
@@ -21,7 +21,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.flink</groupId>
+        <groupId>com.sbbsystems.flink</groupId>
         <artifactId>statefun-flink</artifactId>
         <version>3.4-SNAPSHOT</version>
         <relativePath>..</relativePath>
@@ -44,7 +44,7 @@ under the License.
 
         <!-- The main Stateful Functions job artifact  -->
         <dependency>
-            <groupId>org.apache.flink</groupId>
+            <groupId>com.sbbsystems.flink</groupId>
             <artifactId>statefun-flink-core</artifactId>
             <version>${project.version}</version>
         </dependency>
