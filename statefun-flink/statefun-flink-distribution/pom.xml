@@ -23,12 +23,12 @@ under the License.
     <parent>
         <groupId>com.sbbsystems.flink</groupId>
         <artifactId>statefun-flink</artifactId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.4.0</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>statefun-flink-distribution</artifactId>
-
+    <name>statefun-flink-distribution</name>
     <dependencies>
         <!-- 3rd party -->
         <dependency>
@@ -186,6 +186,25 @@ under the License.
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- empty javadoc for publishing to maven -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>javadoc</classifier>
+                            <classesDirectory>${basedir}/javadoc</classesDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>

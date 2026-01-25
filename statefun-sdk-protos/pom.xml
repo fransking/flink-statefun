@@ -21,12 +21,13 @@ under the License.
     <parent>
         <artifactId>statefun-parent</artifactId>
         <groupId>com.sbbsystems.flink</groupId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.4.0</version>
         <relativePath>..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>statefun-sdk-protos</artifactId>
+    <name>statefun-sdk-protos</name>
 
     <build>
         <plugins>

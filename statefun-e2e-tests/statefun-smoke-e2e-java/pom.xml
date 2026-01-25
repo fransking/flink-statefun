@@ -21,12 +21,13 @@ under the License.
     <parent>
         <groupId>com.sbbsystems.flink</groupId>
         <artifactId>statefun-smoke-e2e-multilang-base</artifactId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.4.0</version>
         <relativePath>../statefun-smoke-e2e-multilang-base/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>statefun-smoke-e2e-java</artifactId>
+    <name>statefun-smoke-e2e-java</name>
 
     <properties>
         <netty.shaded.version>4.1.65.Final-14.0</netty.shaded.version>

@@ -23,7 +23,7 @@ under the License.
     <parent>
         <artifactId>statefun-shaded</artifactId>
         <groupId>com.sbbsystems.flink</groupId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.4.0</version>
     </parent>
 
     <artifactId>statefun-protobuf-shaded</artifactId>
@@ -104,6 +104,13 @@ under the License.
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                        <excludePackageNames>org.apache.flink.statefun.sdk.shaded.com.google.*</excludePackageNames>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -41,6 +41,6 @@ fi
 cd ${PROJECT_ROOT}
 
 echo "Deploying to repository.apache.org"
-${MVN} clean deploy -Papache-release -DskipTests -DretryFailedDeploymentCount=10
+${MVN} clean deploy -Prelease -DskipTests -DretryFailedDeploymentCount=10
 
 cd ${CURR_DIR}
