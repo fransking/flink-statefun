@@ -26,7 +26,9 @@ under the License.
     <version>3.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <url>http://flink.apache.org</url>
+    <description>A fork of Flink Stateful Functions uplifted to support Flink 2.x</description>
+    <url>https://github.com/fransking/flink-statefun/tree/main</url>
+
     <inceptionYear>2014</inceptionYear>
 
     <licenses>
@@ -38,10 +40,19 @@ under the License.
     </licenses>
 
     <scm>
-        <url>https://github.com/apache/flink-statefun</url>
+        <url>https://github.com/fransking/flink-statefun</url>
         <connection>git@github.com:apache/flink-statefun.git</connection>
-        <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/flink-statefun.git</developerConnection>
+        <developerConnection>scm:git:ssh://github.com:fransking/flink-statefun.git</developerConnection>
     </scm>
+
+    <developers>
+        <developer>
+            <name>Frans King</name>
+            <email>frans.king@sbbsystems.com</email>
+            <organization>SBB Systems</organization>
+            <organizationUrl>https://github.com/fransking</organizationUrl>
+        </developer>
+    </developers>
 
     <modules>
         <module>statefun-sdk-embedded</module>
@@ -135,6 +146,43 @@ under the License.
             <id>release</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-docs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>

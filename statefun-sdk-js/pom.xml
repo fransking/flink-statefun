@@ -27,6 +27,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>statefun-sdk-js</artifactId>
+    <name>statefun-sdk-js</name>
 
     <build>
         <plugins>

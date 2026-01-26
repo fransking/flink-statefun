@@ -28,6 +28,7 @@ under the License.
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>statefun-flink</artifactId>
+    <name>statefun-flink</name>
     <packaging>pom</packaging>
 
     <modules>

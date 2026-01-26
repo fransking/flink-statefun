@@ -28,7 +28,7 @@ under the License.
     </parent>
 
     <artifactId>statefun-flink-datastream</artifactId>
-
+    <name>statefun-flink-datastream</name>
     <dependencies>
         <dependency>
             <groupId>com.sbbsystems.flink</groupId>

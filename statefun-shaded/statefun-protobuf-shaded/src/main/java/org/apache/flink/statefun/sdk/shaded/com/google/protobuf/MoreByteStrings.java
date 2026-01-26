@@ -18,8 +18,9 @@
 package org.apache.flink.statefun.sdk.shaded.com.google.protobuf;
 
 import java.nio.ByteBuffer;
+import org.apache.flink.statefun.sdk.shaded.protobuf.Extension;
 
-public class MoreByteStrings {
+public class MoreByteStrings extends Extension {
 
   public static ByteString wrap(byte[] bytes) {
     return ByteString.wrap(bytes);

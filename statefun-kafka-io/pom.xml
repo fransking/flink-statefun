@@ -31,6 +31,7 @@ under the License.
     </properties>
 
     <artifactId>statefun-kafka-io</artifactId>
+    <name>statefun-kafka-io</name>
     <dependencies>
         <dependency>
             <groupId>com.sbbsystems.flink</groupId>

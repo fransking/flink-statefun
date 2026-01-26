@@ -27,6 +27,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>statefun-smoke-e2e-java</artifactId>
+    <name>statefun-smoke-e2e-java</name>
 
     <properties>
         <netty.shaded.version>4.1.65.Final-14.0</netty.shaded.version>

@@ -28,7 +28,7 @@ under the License.
     </parent>
 
     <artifactId>statefun-flink-common</artifactId>
-
+    <name>statefun-flink-common</name>
     <properties>
         <additional-sources.dir>target/additional-sources</additional-sources.dir>
     </properties>

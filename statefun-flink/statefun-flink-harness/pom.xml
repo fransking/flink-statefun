@@ -28,7 +28,7 @@ under the License.
     </parent>
 
     <artifactId>statefun-flink-harness</artifactId>
-
+    <name>statefun-flink-harness</name>
     <dependencies>
         <dependency>
             <groupId>com.sbbsystems.flink</groupId>

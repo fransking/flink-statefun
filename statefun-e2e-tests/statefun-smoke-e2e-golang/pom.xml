@@ -27,4 +27,5 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>statefun-smoke-e2e-golang</artifactId>
+    <name>statefun-smoke-e2e-golang</name>
 </project>

@@ -28,7 +28,7 @@ under the License.
     </parent>
 
     <artifactId>statefun-flink-io-bundle</artifactId>
-
+    <name>statefun-flink-io-bundle</name>
     <properties>
         <additional-sources.dir>target/additional-sources</additional-sources.dir>
     </properties>

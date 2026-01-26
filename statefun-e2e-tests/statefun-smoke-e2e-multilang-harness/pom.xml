@@ -26,6 +26,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>statefun-smoke-e2e-multilang-harness</artifactId>
+    <name>statefun-smoke-e2e-multilang-harness</name>
 
     <dependencies>
         <!-- StateFun Harness -->

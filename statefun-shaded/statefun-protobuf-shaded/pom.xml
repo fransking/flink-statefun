@@ -105,6 +105,13 @@ under the License.
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
                 <artifactId>replacer</artifactId>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                        <excludePackageNames>org.apache.flink.statefun.sdk.shaded.com.google.*</excludePackageNames>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

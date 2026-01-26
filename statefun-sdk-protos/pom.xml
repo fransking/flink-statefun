@@ -27,6 +27,7 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>statefun-sdk-protos</artifactId>
+    <name>statefun-sdk-protos</name>
 
     <build>
         <plugins>

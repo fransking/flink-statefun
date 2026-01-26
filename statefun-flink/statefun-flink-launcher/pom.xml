@@ -28,7 +28,7 @@ under the License.
     </parent>
 
     <artifactId>statefun-flink-launcher</artifactId>
-
+    <name>statefun-flink-launcher</name>
     <dependencies>
         <!-- Flink -->
         <dependency>
