@@ -23,12 +23,12 @@ under the License.
     <parent>
         <groupId>com.sbbsystems.flink</groupId>
         <artifactId>statefun-flink</artifactId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.4.0</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>statefun-flink-harness</artifactId>
-
+    <name>statefun-flink-harness</name>
     <dependencies>
         <dependency>
             <groupId>com.sbbsystems.flink</groupId>
