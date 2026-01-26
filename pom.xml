@@ -23,7 +23,7 @@ under the License.
     <artifactId>statefun-parent</artifactId>
     <groupId>com.sbbsystems.flink</groupId>
     <name>statefun-parent</name>
-    <version>3.4.0</version>
+    <version>3.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <description>A fork of Flink Stateful Functions uplifted to support Flink 2.x</description>
