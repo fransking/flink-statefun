@@ -1,6 +1,6 @@
 # Flink Stateful Functions
 
-**This is separately maintained [fork](https://github.com/fransking/flink-statefun/tree/main) supporting newer versions of Apache Flink.**
+**This is a separately maintained [fork](https://github.com/fransking/flink-statefun/tree/main) supporting newer versions of Apache Flink.**
 
 Stateful Functions is an API that simplifies the building of **distributed stateful applications** with a **runtime built for serverless architectures**.
 It brings together the benefits of stateful stream processing - the processing of large datasets with low latency and bounded resource constraints -
