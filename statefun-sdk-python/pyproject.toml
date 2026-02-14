@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=77.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flink-statefun"
+version = "3.4.0"
+description = "Python SDK for Apache Flink Stateful functions"
+readme = "README.md"
+requires-python = ">=3.10"
+license-files = ["LICENSE", "NOTICE"]
+license = "	Apache-2.0"
+authors = [
+    { name = "Apache Software Foundation", email = "dev@flink.apache.org" },
+    { name = "Frans King", email = "frans.king@sbbsystems.com" }
+]
+keywords = ["flink", "statefun"]
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Development Status :: 5 - Production/Stable"
+]
+dependencies = [
+    "protobuf"
+]
+
+[project.urls]
+Homepage = "https://github.com/fransking/flink-statefun/tree/main"
+Source = "https://github.com/fransking/flink-statefun/tree/main"
+Issues = "https://github.com/fransking/flink-statefun/issues"
+
+[tool.setuptools.packages.find]
+include = ["statefun"]
