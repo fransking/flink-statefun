@@ -20,8 +20,9 @@ BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 SDK_PROTOS_DIR="${BASE_DIR}/../statefun-sdk-protos/src/main/protobuf"
 IN_DOCKER_BUILD_COMMAND="
 apk add protobuf-dev && \
+pip3 install build && \
 protoc *proto --python_out=statefun/ && \
-python3 setup.py sdist bdist_wheel
+python3 -m build
 "
 
 
@@ -51,7 +52,7 @@ cd target/
 docker run -v "${BASE_DIR}/target:/app" \
 	--rm \
 	--workdir /app \
-	-i python:3.7-alpine /bin/sh -c "${IN_DOCKER_BUILD_COMMAND}"
+	-i python:3.10-alpine /bin/sh -c "${IN_DOCKER_BUILD_COMMAND}"
 
 cp -r "dist/" "${BASE_DIR}/dist"
 
