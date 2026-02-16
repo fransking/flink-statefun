@@ -22,7 +22,7 @@ under the License.
     <parent>
         <artifactId>statefun-parent</artifactId>
         <groupId>com.sbbsystems.flink</groupId>
-        <version>3.4.0</version>
+        <version>3.4.1</version>
         <relativePath>..</relativePath>
     </parent>
 
