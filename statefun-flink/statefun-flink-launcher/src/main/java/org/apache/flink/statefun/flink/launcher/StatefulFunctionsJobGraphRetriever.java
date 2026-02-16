@@ -72,7 +72,8 @@ final class StatefulFunctionsJobGraphRetriever implements JobGraphRetriever {
   }
 
   private static List<URL> obtainModuleAdditionalClassPath() {
-    final String moduleDirectory = requireNonNullElse(System.getenv("STATEFUN_MODULE_DIRECTORY"), Constants.MODULE_DIRECTORY);
+    final String moduleDirectory =
+        requireNonNullElse(System.getenv("STATEFUN_MODULE_DIRECTORY"), Constants.MODULE_DIRECTORY);
 
     try {
       ModuleSpecs specs = ModuleSpecs.fromPath(moduleDirectory);
@@ -84,13 +85,14 @@ final class StatefulFunctionsJobGraphRetriever implements JobGraphRetriever {
       }
       return classPath;
     } catch (IOException e) {
-      throw new RuntimeException(
-          "Unable to load modules from path " + moduleDirectory, e);
+      throw new RuntimeException("Unable to load modules from path " + moduleDirectory, e);
     }
   }
 
   public PackagedProgram createPackagedProgram() {
-    final String flinkJobJarPath = requireNonNullElse(System.getenv("STATEFUN_FLINK_JOB_JAR_PATH"), Constants.FLINK_JOB_JAR_PATH);
+    final String flinkJobJarPath =
+        requireNonNullElse(
+            System.getenv("STATEFUN_FLINK_JOB_JAR_PATH"), Constants.FLINK_JOB_JAR_PATH);
 
     File mainJar = new File(flinkJobJarPath);
     if (!mainJar.exists()) {
