@@ -18,6 +18,7 @@
 package org.apache.flink.statefun.flink.launcher;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.Objects.requireNonNullElse;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,8 +72,10 @@ final class StatefulFunctionsJobGraphRetriever implements JobGraphRetriever {
   }
 
   private static List<URL> obtainModuleAdditionalClassPath() {
+    final String moduleDirectory = requireNonNullElse(System.getenv("STATEFUN_MODULE_DIRECTORY"), Constants.MODULE_DIRECTORY);
+
     try {
-      ModuleSpecs specs = ModuleSpecs.fromPath(Constants.MODULE_DIRECTORY);
+      ModuleSpecs specs = ModuleSpecs.fromPath(moduleDirectory);
       List<URL> classPath = new ArrayList<>();
       for (ModuleSpecs.ModuleSpec spec : specs) {
         for (URI uri : spec.artifactUris()) {
@@ -82,12 +85,14 @@ final class StatefulFunctionsJobGraphRetriever implements JobGraphRetriever {
       return classPath;
     } catch (IOException e) {
       throw new RuntimeException(
-          "Unable to load modules from path " + Constants.MODULE_DIRECTORY, e);
+          "Unable to load modules from path " + moduleDirectory, e);
     }
   }
 
   public PackagedProgram createPackagedProgram() {
-    File mainJar = new File(Constants.FLINK_JOB_JAR_PATH);
+    final String flinkJobJarPath = requireNonNullElse(System.getenv("STATEFUN_FLINK_JOB_JAR_PATH"), Constants.FLINK_JOB_JAR_PATH);
+
+    File mainJar = new File(flinkJobJarPath);
     if (!mainJar.exists()) {
       throw new IllegalStateException("Unable to locate the launcher jar");
     }
