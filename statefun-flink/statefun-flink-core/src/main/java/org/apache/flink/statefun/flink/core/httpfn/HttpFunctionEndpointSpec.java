@@ -27,6 +27,7 @@ import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.annotatio
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.flink.statefun.flink.core.httpfn.jsonutils.TargetFunctionsJsonDeserializer;
 import org.apache.flink.statefun.flink.core.httpfn.jsonutils.UrlPathTemplateJsonDeserializer;
+import org.apache.flink.statefun.flink.core.reqreply.RequestReplyFailureMode;
 import org.apache.flink.statefun.sdk.TypeName;
 
 @JsonDeserialize(builder = HttpFunctionEndpointSpec.Builder.class)
@@ -39,6 +40,7 @@ public final class HttpFunctionEndpointSpec implements Serializable {
       new TransportClientSpec(
           TransportClientConstants.ASYNC_CLIENT_FACTORY_TYPE,
           new ObjectMapper().createObjectNode());
+  private static final RequestReplyFailureMode DEFAULT_FAILURE_MODE = RequestReplyFailureMode.FAIL;
 
   // ============================================================
   //  Request-Reply invocation protocol configurations
@@ -47,6 +49,7 @@ public final class HttpFunctionEndpointSpec implements Serializable {
   private final TargetFunctions targetFunctions;
   private final UrlPathTemplate urlPathTemplate;
   private final int maxNumBatchRequests;
+  private final RequestReplyFailureMode failureMode;
 
   // ============================================================
   //  HTTP transport related properties
@@ -63,11 +66,13 @@ public final class HttpFunctionEndpointSpec implements Serializable {
       TargetFunctions targetFunctions,
       UrlPathTemplate urlPathTemplate,
       int maxNumBatchRequests,
+      RequestReplyFailureMode failureMode,
       TypeName transportClientFactoryType,
       ObjectNode transportClientProps) {
     this.targetFunctions = targetFunctions;
     this.urlPathTemplate = urlPathTemplate;
     this.maxNumBatchRequests = maxNumBatchRequests;
+    this.failureMode = failureMode;
     this.transportClientFactoryType = transportClientFactoryType;
     this.transportClientProps = transportClientProps;
   }
@@ -82,6 +87,10 @@ public final class HttpFunctionEndpointSpec implements Serializable {
 
   public int maxNumBatchRequests() {
     return maxNumBatchRequests;
+  }
+
+  public RequestReplyFailureMode failureMode() {
+    return failureMode;
   }
 
   public TypeName transportClientFactoryType() {
@@ -99,6 +108,7 @@ public final class HttpFunctionEndpointSpec implements Serializable {
     private final UrlPathTemplate urlPathTemplate;
 
     private int maxNumBatchRequests = DEFAULT_MAX_NUM_BATCH_REQUESTS;
+    private RequestReplyFailureMode failureMode = DEFAULT_FAILURE_MODE;
     private TransportClientSpec transportClientSpec = DEFAULT_TRANSPORT_CLIENT_SPEC;
 
     @JsonCreator
@@ -115,6 +125,12 @@ public final class HttpFunctionEndpointSpec implements Serializable {
     @JsonProperty("maxNumBatchRequests")
     public Builder withMaxNumBatchRequests(int maxNumBatchRequests) {
       this.maxNumBatchRequests = maxNumBatchRequests;
+      return this;
+    }
+
+    @JsonProperty("failureMode")
+    public Builder withFailureMode(String failureMode) {
+      this.failureMode = RequestReplyFailureMode.valueOf(failureMode);
       return this;
     }
 
@@ -138,6 +154,7 @@ public final class HttpFunctionEndpointSpec implements Serializable {
           targetFunctions,
           urlPathTemplate,
           maxNumBatchRequests,
+          failureMode,
           transportClientSpec.factoryKind(),
           transportClientSpec.specNode());
     }

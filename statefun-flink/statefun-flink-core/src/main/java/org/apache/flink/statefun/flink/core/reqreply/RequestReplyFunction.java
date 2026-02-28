@@ -55,6 +55,7 @@ public final class RequestReplyFunction implements StatefulFunction {
   private final FunctionType functionType;
   private final RequestReplyClient client;
   private final int maxNumBatchRequests;
+  private final RequestReplyFailureMode failureMode;
 
   /**
    * This flag indicates whether or not at least one request has already been sent to the remote
@@ -93,8 +94,17 @@ public final class RequestReplyFunction implements StatefulFunction {
   @Persisted private final PersistedRemoteFunctionValues managedStates;
 
   public RequestReplyFunction(
-      FunctionType functionType, int maxNumBatchRequests, RequestReplyClient client) {
-    this(functionType, new PersistedRemoteFunctionValues(), maxNumBatchRequests, client, false);
+      FunctionType functionType,
+      int maxNumBatchRequests,
+      RequestReplyFailureMode failureMode,
+      RequestReplyClient client) {
+    this(
+        functionType,
+        new PersistedRemoteFunctionValues(),
+        maxNumBatchRequests,
+        failureMode,
+        client,
+        false);
   }
 
   @VisibleForTesting
@@ -102,11 +112,13 @@ public final class RequestReplyFunction implements StatefulFunction {
       FunctionType functionType,
       PersistedRemoteFunctionValues states,
       int maxNumBatchRequests,
+      RequestReplyFailureMode failureMode,
       RequestReplyClient client,
       boolean isFirstRequestSent) {
     this.functionType = Objects.requireNonNull(functionType);
     this.managedStates = Objects.requireNonNull(states);
     this.maxNumBatchRequests = maxNumBatchRequests;
+    this.failureMode = Objects.requireNonNull(failureMode);
     this.client = Objects.requireNonNull(client);
     this.isFirstRequestSent = isFirstRequestSent;
   }
@@ -165,9 +177,19 @@ public final class RequestReplyFunction implements StatefulFunction {
       return;
     }
     if (asyncResult.failure()) {
-      throw new IllegalStateException(
-          "Failure forwarding a message to a remote function " + context.self(),
-          asyncResult.throwable());
+      if (failureMode == RequestReplyFailureMode.DROP) {
+        LOG.error(
+            "Failure forwarding a message to a remote function {}",
+            context.self(),
+            asyncResult.throwable());
+
+        handleFailedInvocationResult(context);
+        return;
+      } else {
+        throw new IllegalStateException(
+            "Failure forwarding a message to a remote function " + context.self(),
+            asyncResult.throwable());
+      }
     }
 
     final Either<InvocationResponse, IncompleteInvocationContext> response =
@@ -199,6 +221,24 @@ public final class RequestReplyFunction implements StatefulFunction {
 
     final InvocationBatchRequest.Builder retryBatch = createRetryBatch(originalBatch);
     sendToFunction(context, retryBatch);
+  }
+
+  private void handleFailedInvocationResult(InternalContext context) {
+    final int numBatched = requestState.getOrDefault(-1);
+
+    if (numBatched < 0) {
+      // if we never managed to send a message successfully then our request state is not
+      // initialized,
+      // so we initialize it to 0 to allow processing of the next message.
+      requestState.set(0);
+
+      // reset the flag to allow the next request to be sent in a blocking manner.
+      isFirstRequestSent = false;
+    }
+
+    // a failed function cannot have side effects, so we can reply with an empty response
+    // to unblock the function and let it proceed with next messages.
+    handleInvocationResultResponse(context, InvocationResponse.getDefaultInstance());
   }
 
   private void handleInvocationResultResponse(InternalContext context, InvocationResponse result) {
