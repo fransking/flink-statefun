@@ -18,6 +18,7 @@
 package org.apache.flink.statefun.flink.core.httpfn;
 
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.Objects;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonCreator;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonProperty;
@@ -130,7 +131,7 @@ public final class HttpFunctionEndpointSpec implements Serializable {
 
     @JsonProperty("failureMode")
     public Builder withFailureMode(String failureMode) {
-      this.failureMode = RequestReplyFailureMode.valueOf(failureMode);
+      this.failureMode = RequestReplyFailureMode.valueOf(failureMode.toUpperCase(Locale.ROOT));
       return this;
     }
 
