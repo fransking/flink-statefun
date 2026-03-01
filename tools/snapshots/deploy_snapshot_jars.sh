@@ -49,7 +49,7 @@ echo "Detected current version as: '$CURRENT_STATEFUN_VERSION'"
 
 if [[ ${CURRENT_STATEFUN_VERSION} == *SNAPSHOT* ]] ; then
     echo "Deploying to repository.apache.org/content/repositories/snapshots/"
-    ${MVN} clean deploy -Papache-release -Dgpg.skip -Drat.skip=true -Drat.ignoreErrors=true -DskipTests -DretryFailedDeploymentCount=10
+    ${MVN} clean deploy -Prelease -Dgpg.skip -Drat.skip=true -Drat.ignoreErrors=true -DskipTests -DretryFailedDeploymentCount=10
     exit 0
 else
     echo "Snapshot deployments should only be done for snapshot versions"
