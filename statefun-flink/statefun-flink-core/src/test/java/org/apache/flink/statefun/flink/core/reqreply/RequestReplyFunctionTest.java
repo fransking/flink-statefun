@@ -70,7 +70,12 @@ public class RequestReplyFunctionTest {
 
   private final RequestReplyFunction functionUnderTest =
       new RequestReplyFunction(
-          FN_TYPE, testInitialRegisteredState("session", "com.foo.bar/myType"), 10, client, true);
+          FN_TYPE,
+          testInitialRegisteredState("session", "com.foo.bar/myType"),
+          10,
+          RequestReplyFailureMode.FAIL,
+          client,
+          true);
 
   @Test
   public void example() {
@@ -121,7 +126,8 @@ public class RequestReplyFunctionTest {
 
   @Test
   public void reachingABatchLimitTriggersBackpressure() {
-    RequestReplyFunction functionUnderTest = new RequestReplyFunction(FN_TYPE, 2, client);
+    RequestReplyFunction functionUnderTest =
+        new RequestReplyFunction(FN_TYPE, 2, RequestReplyFailureMode.FAIL, client);
 
     // send one message
     functionUnderTest.invoke(context, TypedValue.getDefaultInstance());
@@ -137,7 +143,8 @@ public class RequestReplyFunctionTest {
 
   @Test
   public void returnedMessageReleaseBackpressure() {
-    RequestReplyFunction functionUnderTest = new RequestReplyFunction(FN_TYPE, 2, client);
+    RequestReplyFunction functionUnderTest =
+        new RequestReplyFunction(FN_TYPE, 2, RequestReplyFailureMode.FAIL, client);
 
     // the following invocations should cause backpressure
     functionUnderTest.invoke(context, TypedValue.getDefaultInstance());
@@ -332,6 +339,36 @@ public class RequestReplyFunctionTest {
   }
 
   @Test
+  public void failureModeFailThrowsOnAsyncFailure() {
+    RequestReplyFunction functionUnderTest =
+        new RequestReplyFunction(FN_TYPE, 10, RequestReplyFailureMode.FAIL, client);
+
+    functionUnderTest.invoke(context, TypedValue.getDefaultInstance());
+
+    try {
+      functionUnderTest.invoke(context, failedAsyncOperation());
+      org.junit.Assert.fail("Expected IllegalStateException to be thrown");
+    } catch (IllegalStateException e) {
+      // expected
+    }
+  }
+
+  @Test
+  public void failureModeDropContinuesProcessingOnAsyncFailure() {
+    RequestReplyFunction functionUnderTest =
+        new RequestReplyFunction(FN_TYPE, 10, RequestReplyFailureMode.DROP, client);
+
+    functionUnderTest.invoke(context, TypedValue.getDefaultInstance());
+
+    // invoking with a failed async operation should not throw
+    functionUnderTest.invoke(context, failedAsyncOperation());
+
+    // the function should continue to accept and forward new messages
+    functionUnderTest.invoke(context, TypedValue.getDefaultInstance());
+    assertThat(client.capturedInvocationBatchSize(), is(1));
+  }
+
+  @Test
   public void retryBatchOnUnkownAsyncResponseAfterRestore() {
     TypedValue argument =
         TypedValue.newBuilder()
@@ -342,7 +379,13 @@ public class RequestReplyFunctionTest {
     ToFunction originalRequest = client.wasSentToFunction;
 
     RequestReplyFunction restoredFunction =
-        new RequestReplyFunction(FN_TYPE, new PersistedRemoteFunctionValues(), 2, client, true);
+        new RequestReplyFunction(
+            FN_TYPE,
+            new PersistedRemoteFunctionValues(),
+            2,
+            RequestReplyFailureMode.FAIL,
+            client,
+            true);
     restoredFunction.invoke(context, unknownAsyncOperation(originalRequest));
 
     // retry batch after a restore on an unknown async operation should start with empty state specs
@@ -383,6 +426,11 @@ public class RequestReplyFunctionTest {
       ToFunction toFunction) {
     return new AsyncOperationResult<>(
         toFunction, Status.UNKNOWN, FromFunction.getDefaultInstance(), null);
+  }
+
+  private static AsyncOperationResult<Object, FromFunction> failedAsyncOperation() {
+    return new AsyncOperationResult<>(
+        new Object(), Status.FAILURE, null, new RuntimeException("remote call failed"));
   }
 
   private static final class FakeClient implements RequestReplyClient {
