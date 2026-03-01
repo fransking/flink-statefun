@@ -23,7 +23,7 @@ under the License.
     <parent>
         <artifactId>statefun-parent</artifactId>
         <groupId>com.sbbsystems.flink</groupId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.4.1</version>
     </parent>
 
     <artifactId>statefun-shaded</artifactId>

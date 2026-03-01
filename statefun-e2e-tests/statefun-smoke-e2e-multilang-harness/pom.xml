@@ -21,7 +21,7 @@ under the License.
     <parent>
         <artifactId>statefun-e2e-tests</artifactId>
         <groupId>com.sbbsystems.flink</groupId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.4.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -47,7 +47,7 @@ under the License.
         <dependency>
             <groupId>com.sbbsystems.flink</groupId>
             <artifactId>statefun-smoke-e2e-driver</artifactId>
-            <version>3.4-SNAPSHOT</version>
+            <version>3.4.1</version>
         </dependency>
 
         <!-- Test scope dependencies -->

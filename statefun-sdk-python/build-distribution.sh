@@ -32,7 +32,7 @@ cd ${BASE_DIR}
 
 # create a target/ directory like in MAVEN.
 # this directory will contain a temporary copy of the source and
-# addtional generated sources (for example sdk .proto files copied from else where)
+# additional generated sources (for example sdk .proto files copied from else where)
 # eventually the built artifact will be copied to ${BASE_DIR}/dist and this target
 # directory will be deleted.
 rm -fr dist/
