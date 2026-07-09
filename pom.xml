@@ -23,7 +23,7 @@ under the License.
     <artifactId>statefun-parent</artifactId>
     <groupId>com.sbbsystems.flink</groupId>
     <name>statefun-parent</name>
-    <version>3.4-SNAPSHOT</version>
+    <version>3.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <description>A fork of Flink Stateful Functions uplifted to support Flink 2.x</description>
@@ -83,12 +83,12 @@ under the License.
         <protobuf.version>3.7.1</protobuf.version>
         <unixsocket.version>2.3.2</unixsocket.version>
         <protoc-jar-maven-plugin.version>3.11.1</protoc-jar-maven-plugin.version>
-        <flink.version>2.2.1</flink.version>
-        <flink-kafka.version>4.0.1-2.0</flink-kafka.version>
+        <flink.version>2.3.0</flink.version>
+        <flink-kafka.version>5.0.0-2.2</flink-kafka.version>
         <scala.binary.version>2.12</scala.binary.version>
         <scala.version>2.12.7</scala.version>
-        <lz4-java.version>1.8.0</lz4-java.version>
-        <flink-shaded-jackson.version>2.18.2-20.0</flink-shaded-jackson.version>
+        <lz4-java.version>1.10.1</lz4-java.version>
+        <flink-shaded-jackson.version>2.20.1-21.0</flink-shaded-jackson.version>
         <slf4j-log4j12.version>1.7.36</slf4j-log4j12.version>
         <test.unit.pattern>**/*Test.*</test.unit.pattern>
     </properties>
@@ -132,9 +132,9 @@ under the License.
 
             <!-- Resolve dependency convergence issue -->
             <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-shaded-netty</artifactId>
-                <version>4.1.91.Final-17.0</version>
+                <groupId>at.yawk.lz4</groupId>
+                <artifactId>lz4-java</artifactId>
+                <version>${lz4-java.version}</version>
             </dependency>
 
         </dependencies>
@@ -197,9 +197,9 @@ under the License.
         </profile>
 
         <profile>
-            <id>java11</id>
+            <id>java17</id>
             <activation>
-                <jdk>[11,)</jdk>
+                <jdk>[17,)</jdk>
             </activation>
 
             <build>
@@ -208,8 +208,8 @@ under the License.
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
-                            <source>11</source>
-                            <target>11</target>
+                            <source>17</source>
+                            <target>17</target>
                             <compilerArgs combine.children="append">
                                 <arg>--add-exports=java.base/sun.net.util=ALL-UNNAMED</arg>
                                 <arg>--add-exports=java.management/sun.management=ALL-UNNAMED</arg>
@@ -281,8 +281,8 @@ under the License.
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>17</source>
+                    <target>17</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>com.google.auto.service</groupId>

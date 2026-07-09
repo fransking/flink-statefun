@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM fransking/flink-statefun:3.4-SNAPSHOT
+FROM fransking/flink-statefun:3.5-SNAPSHOT
 
 RUN mkdir -p /opt/statefun/modules/statefun-smoke-e2e
 COPY statefun-smoke-e2e-driver.jar /opt/statefun/modules/statefun-smoke-e2e/
