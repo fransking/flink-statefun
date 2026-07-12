@@ -80,7 +80,7 @@ under the License.
         <java.version>11</java.version>
         <spotless-maven-plugin.version>1.20.0</spotless-maven-plugin.version>
         <auto-service.version>1.0-rc6</auto-service.version>
-        <protobuf.version>3.7.1</protobuf.version>
+        <protobuf.version>4.28.2</protobuf.version>
         <unixsocket.version>2.3.2</unixsocket.version>
         <protoc-jar-maven-plugin.version>3.11.1</protoc-jar-maven-plugin.version>
         <flink.version>2.3.0</flink.version>
@@ -237,7 +237,7 @@ under the License.
                                 <goal>run</goal>
                             </goals>
                             <configuration>
-                                <includeStdTypes>true</includeStdTypes>
+                                <includeMavenTypes>direct</includeMavenTypes>
                                 <protocVersion>${protobuf.version}</protocVersion>
                                 <cleanOutputFolder>true</cleanOutputFolder>
                                 <outputDirectory>${basedir}/target/generated-sources/protoc-jar</outputDirectory>
@@ -252,7 +252,7 @@ under the License.
                                 <goal>run</goal>
                             </goals>
                             <configuration>
-                                <includeStdTypes>true</includeStdTypes>
+                                <includeMavenTypes>direct</includeMavenTypes>
                                 <protocVersion>${protobuf.version}</protocVersion>
                                 <inputDirectories>
                                     <include>src/test/protobuf</include>
