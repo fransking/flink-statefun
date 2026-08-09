@@ -89,7 +89,8 @@ under the License.
         <scala.version>2.12.7</scala.version>
         <lz4-java.version>1.10.1</lz4-java.version>
         <flink-shaded-jackson.version>2.20.1-21.0</flink-shaded-jackson.version>
-        <slf4j-log4j12.version>1.7.36</slf4j-log4j12.version>
+        <slf4j.version>1.7.36</slf4j.version>
+        <log4j2.version>2.26.1</log4j2.version>
         <test.unit.pattern>**/*Test.*</test.unit.pattern>
     </properties>
 
@@ -149,6 +150,13 @@ under the License.
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
                 <version>17.0.0</version>
+            </dependency>
+
+            <!-- Resolve dependency convergence issue -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j2.version}</version>
             </dependency>
 
         </dependencies>
