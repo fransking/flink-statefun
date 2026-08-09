@@ -30,7 +30,7 @@ under the License.
     <artifactId>statefun-flink-core</artifactId>
     <name>statefun-flink-core</name>
     <properties>
-        <okhttp.version>3.14.6</okhttp.version>
+        <okhttp.version>4.12.0</okhttp.version>
         <additional-sources.dir>target/additional-sources</additional-sources.dir>
         <flink-shaded-netty.version>4.2.6.Final-21.0</flink-shaded-netty.version>
     </properties>
