@@ -29,7 +29,7 @@ under the License.
     <name>statefun-e2e-tests-common</name>
 
     <properties>
-        <kafka.version>2.4.1</kafka.version>
+        <kafka.version>4.2.0</kafka.version>
     </properties>
 
     <dependencies>
