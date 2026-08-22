@@ -22,7 +22,7 @@ under the License.
     <parent>
         <artifactId>statefun-parent</artifactId>
         <groupId>com.sbbsystems.flink</groupId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.5-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -133,17 +133,17 @@ under the License.
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.7</version>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>1.7.7</version>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j2.version}</version>
             </dependency>
             <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.17</version>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j2.version}</version>
             </dependency>
 
             <!-- protobuf -->
@@ -174,7 +174,7 @@ under the License.
             <dependency>
                 <groupId>org.xerial.snappy</groupId>
                 <artifactId>snappy-java</artifactId>
-                <version>1.1.10.1</version>
+                <version>1.1.10.7</version>
             </dependency>
             <!--
             Pin the scala library version in order to resolve the dependency conversion problem between two
@@ -196,7 +196,7 @@ under the License.
             Pin version to avoid conflicts between flink-runtime and kafka-clients
             -->
             <dependency>
-                <groupId>org.lz4</groupId>
+                <groupId>at.yawk.lz4</groupId>
                 <artifactId>lz4-java</artifactId>
                 <version>${lz4-java.version}</version>
             </dependency>

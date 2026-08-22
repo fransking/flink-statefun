@@ -21,7 +21,7 @@ under the License.
     <parent>
         <artifactId>statefun-e2e-tests</artifactId>
         <groupId>com.sbbsystems.flink</groupId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -29,7 +29,7 @@ under the License.
     <name>statefun-e2e-tests-common</name>
 
     <properties>
-        <kafka.version>2.4.1</kafka.version>
+        <kafka.version>4.2.0</kafka.version>
     </properties>
 
     <dependencies>

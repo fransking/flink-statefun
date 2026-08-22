@@ -21,7 +21,7 @@ under the License.
     <parent>
         <artifactId>statefun-parent</artifactId>
         <groupId>com.sbbsystems.flink</groupId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -30,7 +30,7 @@ under the License.
     <packaging>pom</packaging>
 
     <properties>
-        <testcontainers.version>1.15.2</testcontainers.version>
+        <testcontainers.version>2.0.5</testcontainers.version>
     </properties>
 
     <modules>
@@ -60,7 +60,7 @@ under the License.
             Pin version to avoid conflicts between flink-runtime and kafka-clients
             -->
             <dependency>
-                <groupId>org.lz4</groupId>
+                <groupId>at.yawk.lz4</groupId>
                 <artifactId>lz4-java</artifactId>
                 <version>${lz4-java.version}</version>
             </dependency>

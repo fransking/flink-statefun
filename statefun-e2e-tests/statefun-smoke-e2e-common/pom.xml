@@ -21,7 +21,7 @@ under the License.
     <parent>
         <artifactId>statefun-e2e-tests</artifactId>
         <groupId>com.sbbsystems.flink</groupId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -69,14 +69,14 @@ under the License.
 
         <!-- logging -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-log4j12.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j2.version}</version>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2.version}</version>
         </dependency>
     </dependencies>
 
@@ -95,7 +95,7 @@ under the License.
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <includeStdTypes>true</includeStdTypes>
+                            <includeMavenTypes>direct</includeMavenTypes>
                             <protocVersion>${protobuf.version}</protocVersion>
                             <cleanOutputFolder>true</cleanOutputFolder>
                             <inputDirectories>
